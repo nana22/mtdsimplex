@@ -5,6 +5,8 @@
 
 package simplex;
 
+import simplex.ui.Principal;
+
 /**
  *
  * @author Neo Cs
@@ -18,6 +20,7 @@ public class Main {
         System.out.println("hOLA");
         int suma = sumar(3,4);
         System.out.println("La suma de 3 y 4 es:" + suma);
+        new Principal().setVisible(true);
     }
 
     static int sumar(int a, int b){
