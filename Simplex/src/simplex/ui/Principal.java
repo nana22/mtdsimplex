@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * (#)Principal.java 1.0
+ * @charset "utf-8";
  */
 
 package simplex.ui;
@@ -12,6 +12,7 @@ import javax.swing.JFrame;
  * @author Neo Cs
  */
 public class Principal extends JFrame{
+    private static final long serialVersionUID = -7099333179481246597L;
 
     public Principal(){
         init();
