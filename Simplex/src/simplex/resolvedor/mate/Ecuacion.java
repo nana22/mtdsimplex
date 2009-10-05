@@ -27,6 +27,7 @@ public class Ecuacion {
    public static final int MENOR_IGUAL_QUE = 4;
    private int tipoIgualdad;
    private Monomio [] monomios;
+   private Monomio monomioResultado;
    private int resultado;
 
    /**
@@ -40,6 +41,18 @@ public class Ecuacion {
        setResultado(resultado);
        setTipoIgualdad(tipoIgualdad);
    }
+
+    /**
+     *
+     * @param monomios
+     * @param tipoIgualdad
+     * @param monomioResultado
+     */
+    public Ecuacion (Monomio [] monomios, int tipoIgualdad, Monomio monomioResultado){
+        setMonomioResultado(monomioResultado);
+        setMonomios(monomios);
+        setTipoIgualdad(tipoIgualdad);
+    }
 
     /**
      * @return the tipoIgualdad
@@ -115,6 +128,20 @@ public class Ecuacion {
         }
 
 
+    }
+
+    /**
+     * @return the monomioResultado
+     */
+    public Monomio getMonomioResultado() {
+        return monomioResultado;
+    }
+
+    /**
+     * @param monomioResultado the monomioResultado to set
+     */
+    public void setMonomioResultado(Monomio monomioResultado) {
+        this.monomioResultado = monomioResultado;
     }
 
 }
