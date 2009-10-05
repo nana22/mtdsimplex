@@ -1,3 +1,8 @@
+/*
+ * (#)Main.java 1.11
+ * @charset "utf-8";
+ */
+
 package simplex;
 
 import simplex.ui.Principal;
@@ -15,6 +20,7 @@ public class Main {
     public static void main(String[] args) {
         if (args.length == 0) {
             System.out.println("Perro");
+            System.out.println("Gato");
         } else {
             System.out.println(args);
         }
