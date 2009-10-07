@@ -6,6 +6,9 @@
 
 package simplex.resolvedor.mate;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,17 +29,17 @@ public class Ecuacion {
    public static final int MAYOR_IGUAL_QUE = 3;
    public static final int MENOR_IGUAL_QUE = 4;
    private int tipoIgualdad;
-   private Monomio [] monomios;
+   private List <Monomio> monomios;
    private Monomio monomioResultado;
    private int resultado;
 
    /**
     *
     * @param monomios
-    * @param tipoIgudad
+    * @param tipoIgualdad
     * @param resultado
     */
-    public Ecuacion(Monomio [] monomios, int tipoIgualdad, int resultado){
+   public Ecuacion(Monomio [] monomios, int tipoIgualdad, int resultado){
        setMonomios(monomios);
        setResultado(resultado);
        setTipoIgualdad(tipoIgualdad);
@@ -87,6 +90,10 @@ public class Ecuacion {
      * @return the monomios
      */
     public Monomio[] getMonomios() {
+        Monomio [] monomios = new Monomio[this.monomios.size()];
+        for(Iterator<Monomio> i = this.monomios.iterator(); i.hasNext(); ){
+            monomios[i.hashCode()] = i.next();
+        }
         return monomios;
     }
 
@@ -94,7 +101,10 @@ public class Ecuacion {
      * @param monomios the monomios to set
      */
     public void setMonomios(Monomio[] monomios) {
-        this.monomios = monomios;
+        this.monomios = new ArrayList<Monomio>();
+        for(Monomio i: monomios){
+            addMononio(i);
+        }
     }
 
     /**
@@ -111,23 +121,8 @@ public class Ecuacion {
         this.resultado = resultado;
     }
 
-    public void agregarMononio(Monomio monomio){
-        int a = this.monomios.length + 1;
-        Monomio [] monomiosAntiguos = this.monomios;
-        Monomio [] monomiosNuevo = new Monomio[a];
-
-        try{
-        for (int i= 0; i < a-1; i++){
-            monomiosNuevo[i] = monomiosAntiguos [i];
-        }
-        monomiosNuevo[a] = monomio;
-        this.monomios = monomiosNuevo;
-        }catch(Exception e){
-            this.monomios = monomiosAntiguos;
-            e.printStackTrace();
-        }
-
-
+    public void addMononio(Monomio monomio){
+        monomios.add(monomio);
     }
 
     /**
