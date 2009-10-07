@@ -138,5 +138,4 @@ public class Ecuacion {
     public void setMonomioResultado(Monomio monomioResultado) {
         this.monomioResultado = monomioResultado;
     }
-
 }
