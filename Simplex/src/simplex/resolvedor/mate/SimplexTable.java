@@ -14,7 +14,12 @@ private String varNs[];
 private String varTOT[];
 private DefaultTableModel modelo;
 
-    public SimplexTable( String var[], String varBasic[], Ecuacion FOc, Ecuacion restC[] ){
+    public DefaultTableModel SimplexTable( Ecuacion FOc, Ecuacion restC[] ){
+        setVarTOT();
+        setColNames ( varNs, varBasics );
+        modelo = newTable( colNames );
+        setRowData( FOc, restC);
+        return modelo;
     }
     
     public DefaultTableModel SimplexTable( String var[], String varBasic[] ){
@@ -22,12 +27,12 @@ private DefaultTableModel modelo;
         setVarBasics( varBasic );
         setVarTOT();
         setColNames ( varNs, varBasics );
-        setRowData();
+        //setRowData();
         modelo = newTable( colNames );
         return modelo;
     }
 
-    public DefaultTableModel newTable( String Colums[] ){
+    private DefaultTableModel newTable( String Colums[] ){
         JTable jTable1 = new JTable();
         DefaultTableModel modNuevo = new DefaultTableModel();
         for (int i=0; i<colNames.length; i++){
@@ -36,7 +41,7 @@ private DefaultTableModel modelo;
         return modNuevo;
     }
 
-    public void setColNames( String var[], String varBasic[] ){
+    private void setColNames( String var[], String varBasic[] ){
         int vars = var.length + varBasic.length;
         int numCol = vars + 4;
         colNames = new String[numCol];
@@ -49,21 +54,41 @@ private DefaultTableModel modelo;
         }
     }
 
-    public void setRowData(){
-        String rowTemp[][] ={ {"1", "2", "3", "4", "5", "6", "7", "8", "9"},
-        {"1", "2", "3", "4", "5", "6", "7", "8", "9"} };
-        rowData = rowTemp;
+    private void setRowData(Ecuacion FO, Ecuacion[] restric ){
+        String RowFO[];
+        RowFO = new String[varTOT.length];
+        RowFO[0] = "Z";
+        RowFO[1] = "0";
+        RowFO[varTOT.length-2] = Integer.toString(FO.getResultado());
+        RowFO[varTOT.length-1] = null;
+        Monomio temp[] = FO.getMonomios();
+        for (int i=2; i<varTOT.length-2; i++){
+            for (int j=0; j<temp.length; j++){
+                String caract = Character.toString(temp[j].getVariable());
+                if ( caract.equalsIgnoreCase(colNames[i])  ){
+                    RowFO[i] = Integer.toString( temp[j].getCoeficiente());
+                }
+            }
+        }
+        modelo.addRow(RowFO);
     }
 
     public void setVarBasics( String varBasic[] ){
         varBasics = varBasic;
+    }
+    public String[] getVarBasics(){
+        return varBasics;
     }
 
     public void setVarNs( String vars[] ){
         varNs = vars;
     }
 
-    public void setVarTOT(){
+    public String[] getVarNs(){
+        return varNs;
+    }
+
+    private void setVarTOT(){
         varTOT = new String[varBasics.length + varNs.length];
         for (int i=0; i<varNs.length; i++){
             varTOT[i] = varNs[i];
@@ -71,6 +96,9 @@ private DefaultTableModel modelo;
         for (int i=0, j=varNs.length; j<varTOT.length; i++, j++ ){
             varTOT[j] = varBasics[i];
         }
+    }
+    public String[] getVarTOT(){
+        return varTOT;
     }
     
 }

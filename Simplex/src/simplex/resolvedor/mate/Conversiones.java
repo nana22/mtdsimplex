@@ -1,19 +1,24 @@
 package simplex.resolvedor.mate;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Marco
  */
-
-
 public class Conversiones {
 
 private String varBasic[];
 private String tempVB[];
 private String var[];
 
-    public Conversiones( Ecuacion FO, Ecuacion [] rest ){
+    public DefaultTableModel Conversiones( Ecuacion FO, Ecuacion [] rest ){
         tratarFO(FO);
         tratarRestric(rest);
+        SimplexTable table = new SimplexTable();
+        table.setVarBasics(varBasic);
+        table.setVarNs(var);
+        DefaultTableModel modelitop= new DefaultTableModel();
+        modelitop = table.SimplexTable(FO, rest);
+        return modelitop;
     }
     public void tratarFO( Ecuacion FO ){
         Monomio monomiosFO[] = FO.getMonomios();
