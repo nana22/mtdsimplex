@@ -15,7 +15,6 @@ private String varTOT[];
 private DefaultTableModel modelo;
 
     public DefaultTableModel SimplexTable( Ecuacion FOc, Ecuacion restC[] ){
-        System.out.println(varBasics.length);
         setVarTOT();
         setColNames ( varNs, varBasics );
         modelo = newTable( colNames );
@@ -56,12 +55,23 @@ private DefaultTableModel modelo;
     }
 
     private void setRowData(Ecuacion FO, Ecuacion[] restric ){
+        String colVarsB[] = new String[varBasics.length + 1];
+        colVarsB[0] = "Z";
+        for (int i=1; i<colVarsB.length; i++){
+            colVarsB[i] = varBasics[i-1];
+        }
+        Ecuacion nuevaEc[] = new Ecuacion[restric.length+1];
+        nuevaEc[0] = FO;
+        for (int ecs=1; ecs<restric.length+1; ecs++){
+            nuevaEc[ecs] = restric[ecs-1];
+        }
+        for (int llen=0; llen<nuevaEc.length; llen++){
         String RowFO[];
         RowFO = new String[colNames.length];
-        RowFO[0] = "Z";
-        RowFO[1] = "0";
-        RowFO[colNames.length-2] = Integer.toString(FO.getResultado());
-        Monomio temp[] = FO.getMonomios();
+        //RowFO[0] = colVarsB[llen];
+        RowFO[1] = Integer.toString(llen);
+        RowFO[colNames.length-2] = Integer.toString(nuevaEc[llen].getResultado());
+        Monomio temp[] = nuevaEc[llen].getMonomios();
         for (int i=2; i<colNames.length-2; i++){
             for (int j=0; j<temp.length; j++){
                 String caract = Character.toString(temp[j].getVariable());
@@ -76,6 +86,7 @@ private DefaultTableModel modelo;
         }
         RowFO[colNames.length-1] = null;
         modelo.addRow(RowFO);
+        }
     }
 
     public void setVarBasics( String varBasic[] ){
