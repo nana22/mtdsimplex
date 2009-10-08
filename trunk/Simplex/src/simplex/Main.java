@@ -8,7 +8,6 @@ public class Main {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         }
         catch (Exception ex) {}
-        new VentanaPrincipal().setVisible(true);
-         
+        new VentanaPrincipal().setVisible(true);      
     }
 }

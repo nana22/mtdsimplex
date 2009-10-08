@@ -4,8 +4,9 @@ package simplex.resolvedor.mate;
 
 public class Conversiones {
 
-    public Conversiones( Ecuacion FO ){
+    public Conversiones( Ecuacion FO, Ecuacion rest[] ){
         tratarFO(FO);
+        tratarRestric( rest[] );
     }
     public void tratarFO( Ecuacion FO ){
         Monomio funcion[] = FO.getMonomios();
@@ -35,6 +36,7 @@ public class Conversiones {
                     restricciones[i].addMononio( new Monomio( holgura ));
                     holgura++;
                     break;
+                default: ;
             }
         }
     }
