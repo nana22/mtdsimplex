@@ -16,6 +16,15 @@ public class Conversiones {
         FO.addMononio(z);
     }
     public void tratarRestric( Ecuacion restricciones[]){
-        
+        int tama = restricciones.length;
+        for (int i=0; i<tama; i++){
+            //Checando restricciones
+            int igualdad = restricciones[i].getTipoIgualdad();
+            switch (igualdad){
+                case 0:  break;
+                case 3:  break;
+                case 4:  break;
+            }
+        }
     }
 }
