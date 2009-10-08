@@ -17,9 +17,10 @@ public class Main {
         Monomio m1 = new Monomio( 3, 'x' );
         Monomio m2 = new Monomio( 5, 'y' );
         Monomio conjunto[] = {m1,m2};
-        Ecuacion ecua = new Ecuacion ( conjunto, 0 , res);
+        Ecuacion ecua = new Ecuacion ( conjunto, 4 , res);
         Ecuacion ecua2 = new Ecuacion ( conjunto, 3 , res);
-        Ecuacion conecu[] = {ecua, ecua, ecua2};
+        Ecuacion ecua3 = new Ecuacion ( conjunto, 3 , res);
+        Ecuacion conecu[] = { ecua, ecua2, ecua3 };
             
         
         Conversiones conv = new Conversiones();
