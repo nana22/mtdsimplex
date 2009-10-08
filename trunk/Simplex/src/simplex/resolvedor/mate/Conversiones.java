@@ -36,7 +36,7 @@ public class Conversiones {
                     restricciones[i].addMononio( new Monomio( holgura ));
                     holgura++;
                     break;
-                default: ;
+                default: ;//No hay variables de error para cachar
             }
         }
     }
