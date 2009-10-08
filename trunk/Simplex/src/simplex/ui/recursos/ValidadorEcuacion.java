@@ -6,11 +6,15 @@ import simplex.resolvedor.mate.Monomio;
 
 public class ValidadorEcuacion {
 
+    private static Monomio[] monomios;
+
     public static void main(String[] args) {
-        //Ecuacion t = validar("3=3X+5Y-8D-9g+r");
-        dividir("-3x-5y+6z+10w");
+        Ecuacion t = validar("3=3X+5Y");
+        //dividir("-3x-5y+6z+10w");
+        //dividir("3X+5Y-8D-9g+r");//TODO ERROR: no se logra meter el 1 de r
+        //dividir("3X+5Y-D-9g+r");//TODO ERROR: similar al anterior pero en -1 de D
     }
-    
+
     public static Ecuacion validar(String cadena) {
         Ecuacion ecuacion = new Ecuacion(new Monomio[]{new Monomio('x')}, Ecuacion.IGUAL, 0);
         cadena = cadena.trim();
@@ -36,8 +40,8 @@ public class ValidadorEcuacion {
                     }
                 }
             }
-            //Todo implementar dividir;
-            //cadenaMonomios = dividir(cadenaNueva[1]);
+            dividir(cadenaNueva[1]);
+            ecuacion.setMonomios(monomios);
         } else {
             cadenaNueva = cadena.split(">");
             if (cadenaNueva.length == 2) {
@@ -49,7 +53,6 @@ public class ValidadorEcuacion {
                     }
                     ecuacion.setTipoIgualdad(Ecuacion.MAYOR_QUE);
                 }
-
             }
             cadenaNueva = cadena.split("<");
             if (cadenaNueva.length == 2) {
@@ -67,28 +70,44 @@ public class ValidadorEcuacion {
         return ecuacion;
     }
 
-    private static String[] dividir(String string) {
+    private static void dividir(String string) {
         Stack<Character> stVariables = new Stack<Character>();
         Stack<Character> stCoeficientes = new Stack<Character>();
-        for (int i = 0; i < string.length(); i++){
-            if((string.charAt(i) >= 'a') && (string.charAt(i) <= 'z')){
-                stVariables.push(string.charAt(i));
-            }else{
-                stCoeficientes.push(string.charAt(i));
+        int j = string.length() - 1;
+        do {
+            if ((string.charAt(j) >= 'a') && (string.charAt(j) <= 'z')) {
+                stVariables.push(string.charAt(j));
+            } else {
+                stCoeficientes.push(string.charAt(j));
             }
-        }
+            j--;
+        } while (j != -1);
 
         String tmp = "";
         Stack<Integer> coeficientes = new Stack<Integer>();
-        if((stCoeficientes.peek()== '-') || (stCoeficientes.peek() == '+')){
-            if(tmp.length() != 0){
-                coeficientes.push(Integer.parseInt(tmp));
-                tmp = "";
-            }else{
+        do {
+            if ((stCoeficientes.peek() == '-') || (stCoeficientes.peek() == '+')) {
+                if (tmp.length() != 0) {
+                    coeficientes.push(Integer.parseInt(tmp));
+                    tmp = "";
+                } else if (stCoeficientes.peek() == '+') {
+                    stCoeficientes.pop();
+                } else {
+                    tmp += stCoeficientes.pop();
+                }
+            } else {
                 tmp += stCoeficientes.pop();
             }
+        } while (!stCoeficientes.isEmpty());
+        if (!tmp.isEmpty()) {
+            coeficientes.push(Integer.parseInt(tmp));
         }
-        return new String []{"",""};
+        if(coeficientes.size() == stVariables.size()){
+            monomios = new Monomio[coeficientes.size()];
+            int tam = coeficientes.size();
+            for (int i = 0; i < tam; i++) {
+                monomios[i] = new Monomio(coeficientes.pop(), stVariables.pop());
+            }
+        }
     }
 }
-
