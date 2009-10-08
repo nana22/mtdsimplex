@@ -68,7 +68,10 @@ private DefaultTableModel modelo;
         for (int llen=0; llen<nuevaEc.length; llen++){
         String RowFO[];
         RowFO = new String[colNames.length];
-        //RowFO[0] = colVarsB[llen];
+        try{
+        RowFO[0] = colVarsB[llen];
+        }
+        catch (Exception error){}
         RowFO[1] = Integer.toString(llen);
         RowFO[colNames.length-2] = Integer.toString(nuevaEc[llen].getResultado());
         Monomio temp[] = nuevaEc[llen].getMonomios();
