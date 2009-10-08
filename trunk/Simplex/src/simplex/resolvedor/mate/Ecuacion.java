@@ -94,7 +94,6 @@ public class Ecuacion {
         Monomio [] monomiosC = new Monomio[this.monomios.size()];
         int temp=0;
         for(Iterator<Monomio> i = this.monomios.iterator(); i.hasNext(); ){
-            System.out.println(temp);
             monomiosC[temp] = i.next();
             temp++;
         }

@@ -15,6 +15,7 @@ private String varTOT[];
 private DefaultTableModel modelo;
 
     public DefaultTableModel SimplexTable( Ecuacion FOc, Ecuacion restC[] ){
+        System.out.println(varBasics.length);
         setVarTOT();
         setColNames ( varNs, varBasics );
         modelo = newTable( colNames );
@@ -89,7 +90,9 @@ private DefaultTableModel modelo;
     }
 
     private void setVarTOT(){
-        varTOT = new String[varBasics.length + varNs.length];
+        System.out.println(varBasics.length);
+
+        varTOT = new String[(varBasics.length + varNs.length)];
         for (int i=0; i<varNs.length; i++){
             varTOT[i] = varNs[i];
         }
