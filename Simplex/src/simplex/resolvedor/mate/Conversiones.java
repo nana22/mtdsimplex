@@ -20,10 +20,21 @@ public class Conversiones {
         for (int i=0; i<tama; i++){
             //Checando restricciones
             int igualdad = restricciones[i].getTipoIgualdad();
+            char holgura = 64;
             switch (igualdad){
-                case 0:  break;
-                case 3:  break;
-                case 4:  break;
+                case 0: 
+                    //Se Conserva igual
+                    break;
+                case 3:
+                    restricciones[i].setTipoIgualdad(0);
+                    restricciones[i].addMononio( new Monomio( holgura ));
+                    holgura++;
+                    break;
+                case 4:
+                    restricciones[i].setTipoIgualdad(0);
+                    restricciones[i].addMononio( new Monomio( holgura ));
+                    holgura++;
+                    break;
             }
         }
     }
