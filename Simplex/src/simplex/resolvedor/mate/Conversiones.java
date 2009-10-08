@@ -9,7 +9,6 @@ public class Conversiones {
         tratarRestric( rest[] );
     }
     public void tratarFO( Ecuacion FO ){
-        Monomio funcion[] = FO.getMonomios();
         Monomio z = FO.getMonomioResultado();
         z.setCoeciente(-1);
         FO.setMonomioResultado(null);
