@@ -156,7 +156,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-END:initComponents
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
+        // TODO Enviar valor como un Ecuacion []
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     /**
