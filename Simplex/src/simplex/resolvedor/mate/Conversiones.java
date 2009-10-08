@@ -35,6 +35,7 @@ private String var[];
     
     public void tratarRestric( Ecuacion [] restricciones){
         int tama = restricciones.length;
+        tempVB = new String[0];
         for (int i=0; i<tama; i++){
             //Checando restricciones
             int igualdad = restricciones[i].getTipoIgualdad();
