@@ -27,12 +27,12 @@ public class Conversiones {
                     break;
                 case 3:
                     restricciones[i].setTipoIgualdad(0);
-                    restricciones[i].addMononio( new Monomio( holgura ));
+                    restricciones[i].addMononio( new Monomio( -1 , holgura ));
                     holgura++;
                     break;
                 case 4:
                     restricciones[i].setTipoIgualdad(0);
-                    restricciones[i].addMononio( new Monomio( holgura ));
+                    restricciones[i].addMononio( new Monomio( 1 , holgura ));
                     holgura++;
                     break;
                 default: ;//No hay variables de error para cachar
