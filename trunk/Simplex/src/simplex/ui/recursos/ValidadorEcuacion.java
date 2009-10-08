@@ -77,8 +77,8 @@ public class ValidadorEcuacion {
     }
 
     private static String[] dividir(String string) {
-        Stack<char> stVariables = new Stack();
-        Stack<char> stCoeficientes = new Stack();
+        Stack<Character> stVariables = new Stack<Character>();
+        Stack<Character> stCoeficientes = new Stack<Character>();
         for (int i = 0; i < string.length(); i++){
             if((string.charAt(i) >= 'a') && (string.charAt(i) <= 'z')){
                 stVariables.push(string.charAt(i));
@@ -88,7 +88,7 @@ public class ValidadorEcuacion {
         }
 
         String tmp = "";
-        Stack<int> coeficientes = new Stack();
+        Stack<Integer> coeficientes = new Stack<Integer>();
         if((stCoeficientes.peek()== '-') || (stCoeficientes.peek() == '+')){
             if(tmp.length() != 0){
                 coeficientes.push(Integer.parseInt(tmp));
