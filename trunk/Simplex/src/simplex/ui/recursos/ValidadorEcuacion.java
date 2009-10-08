@@ -5,6 +5,7 @@
  */
 package simplex.ui.recursos;
 
+import java.util.Stack;
 import simplex.resolvedor.mate.Ecuacion;
 import simplex.resolvedor.mate.Monomio;
 
@@ -14,11 +15,12 @@ import simplex.resolvedor.mate.Monomio;
  */
 public class ValidadorEcuacion {
 
-    public void main(String[] args) {
-        Ecuacion t = validar("3=3X+5Y");
+    public static void main(String[] args) {
+        //Ecuacion t = validar("3=3X+5Y-8D-9g+r");
+        dividir("-3x-5y+6z+10w");
     }
     
-    public Ecuacion validar(String cadena) {
+    public static Ecuacion validar(String cadena) {
         Ecuacion ecuacion = new Ecuacion(new Monomio[]{new Monomio('x')}, Ecuacion.IGUAL, 0);
         cadena = cadena.trim();
         cadena = cadena.toLowerCase();
@@ -43,7 +45,8 @@ public class ValidadorEcuacion {
                     }
                 }
             }
-            cadenaMonomios = separar(cadenaNueva[1], '+');
+            //Todo implementar dividir;
+            //cadenaMonomios = dividir(cadenaNueva[1]);
         } else {
             cadenaNueva = cadena.split(">");
             if (cadenaNueva.length == 2) {
@@ -73,17 +76,28 @@ public class ValidadorEcuacion {
         return ecuacion;
     }
 
-    private String[] separar(String cadena, char buscar) {
-        String entero="", decimal="";
-        boolean encontrado = false;
-        for (int i = 0; i < cadena.length(); i++){
-            if (cadena.charAt(i) == buscar)
-                encontrado = true;
-            if (!encontrado)
-                entero += cadena.charAt(i);
-            else
-                decimal += cadena.charAt(i);
+    private static String[] dividir(String string) {
+        Stack<char> stVariables = new Stack();
+        Stack<char> stCoeficientes = new Stack();
+        for (int i = 0; i < string.length(); i++){
+            if((string.charAt(i) >= 'a') && (string.charAt(i) <= 'z')){
+                stVariables.push(string.charAt(i));
+            }else{
+                stCoeficientes.push(string.charAt(i));
+            }
         }
-        return new String [] {entero,decimal};
+
+        String tmp = "";
+        Stack<int> coeficientes = new Stack();
+        if((stCoeficientes.peek()== '-') || (stCoeficientes.peek() == '+')){
+            if(tmp.length() != 0){
+                coeficientes.push(Integer.parseInt(tmp));
+                tmp = "";
+            }else{
+                tmp += stCoeficientes.pop();
+            }
+        }
+        return new String []{"",""};
     }
 }
+
