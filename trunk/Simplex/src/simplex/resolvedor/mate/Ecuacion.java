@@ -30,6 +30,7 @@ public class Ecuacion {
    public static final int MENOR_IGUAL_QUE = 4;
    private int tipoIgualdad;
    private List <Monomio> monomios;
+   private Monomio[] prueba;
    private Monomio monomioResultado;
    private int resultado;
 
@@ -90,11 +91,14 @@ public class Ecuacion {
      * @return the monomios
      */
     public Monomio[] getMonomios() {
-        Monomio [] monomios = new Monomio[this.monomios.size()];
+        Monomio [] monomiosC = new Monomio[this.monomios.size()];
+        int temp=0;
         for(Iterator<Monomio> i = this.monomios.iterator(); i.hasNext(); ){
-            monomios[i.hashCode()] = i.next();
+            System.out.println(temp);
+            monomiosC[temp] = i.next();
+            temp++;
         }
-        return monomios;
+        return monomiosC;
     }
 
     /**
