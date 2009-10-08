@@ -1,5 +1,8 @@
 package simplex.resolvedor.mate;
-
+/**
+ *
+ * @author Marco
+ */
 
 
 public class Conversiones {

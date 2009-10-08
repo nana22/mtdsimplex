@@ -1,18 +1,9 @@
-/*
- *
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package simplex.ui.recursos;
 
 import java.util.Stack;
 import simplex.resolvedor.mate.Ecuacion;
 import simplex.resolvedor.mate.Monomio;
 
-/**
- *
- * @author Neo Cs
- */
 public class ValidadorEcuacion {
 
     public static void main(String[] args) {
