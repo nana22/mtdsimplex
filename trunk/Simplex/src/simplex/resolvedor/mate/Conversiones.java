@@ -36,10 +36,10 @@ private String var[];
     public void tratarRestric( Ecuacion [] restricciones){
         int tama = restricciones.length;
         tempVB = new String[0];
+        char holgura = 99;
         for (int i=0; i<tama; i++){
             //Checando restricciones
             int igualdad = restricciones[i].getTipoIgualdad();
-            char holgura = 99;
             switch (igualdad){
                 case 0: 
                     //Se Conserva igual
