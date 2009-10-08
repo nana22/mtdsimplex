@@ -23,26 +23,8 @@ public class Main {
             
         
         Conversiones conv = new Conversiones();
-        /*javax.swing.table.DefaultTableModel prueba = new javax.swing.table.DefaultTableModel();
-        conv.tratarFO(ecua);
-        conv.tratarRestric(conecu);
-        for (int j=0; j<conv.getVar().length; j++){
-                System.out.println(conv.getVar()[j]);
-        }
-        for (int j=0; j<conv.getVarBasic().length; j++){
-                System.out.println(conv.getVarBasic()[j]);
-        }*/
-
-
         init.changeTable( conv.Conversiones( ecua, conecu ) );
         //Fin pruebas
-
-
-        /*String variables[] = {"x", "y", "w"};
-        String variablesBasicas[] = {"c", "d", "e", "f"};
-        SimplexTable prueba = new SimplexTable();
-        javax.swing.table.DefaultTableModel model = prueba.SimplexTable(variables, variablesBasicas);
-        init.changeTable(model);*/
         
     }
 
