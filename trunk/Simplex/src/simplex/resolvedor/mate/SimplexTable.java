@@ -57,13 +57,12 @@ private DefaultTableModel modelo;
 
     private void setRowData(Ecuacion FO, Ecuacion[] restric ){
         String RowFO[];
-        RowFO = new String[varTOT.length];
+        RowFO = new String[colNames.length];
         RowFO[0] = "Z";
         RowFO[1] = "0";
-        RowFO[varTOT.length-2] = Integer.toString(FO.getResultado());
-        RowFO[varTOT.length-1] = null;
+        RowFO[colNames.length-2] = Integer.toString(FO.getResultado());
         Monomio temp[] = FO.getMonomios();
-        for (int i=2; i<varTOT.length-2; i++){
+        for (int i=2; i<colNames.length-2; i++){
             for (int j=0; j<temp.length; j++){
                 String caract = Character.toString(temp[j].getVariable());
                 if ( caract.equalsIgnoreCase(colNames[i])  ){
@@ -71,6 +70,11 @@ private DefaultTableModel modelo;
                 }
             }
         }
+        //Llenado de valores Null con 0
+        for (int i=0; i<RowFO.length; i++){
+            if ( RowFO[i] == null ) RowFO[i] = "0";
+        }
+        RowFO[colNames.length-1] = null;
         modelo.addRow(RowFO);
     }
 
@@ -90,8 +94,6 @@ private DefaultTableModel modelo;
     }
 
     private void setVarTOT(){
-        System.out.println(varBasics.length);
-
         varTOT = new String[(varBasics.length + varNs.length)];
         for (int i=0; i<varNs.length; i++){
             varTOT[i] = varNs[i];
