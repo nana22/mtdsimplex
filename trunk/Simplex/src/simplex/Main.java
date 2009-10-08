@@ -4,8 +4,8 @@
  */
 
 package simplex;
-
-import simplex.ui.Principal;
+import javax.swing.UIManager;
+import simplex.ui.VentanaPrincipal;
 
 /**
  *
@@ -18,14 +18,13 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        if (args.length == 0) {
-            System.out.println("Perro");
-            System.out.println("Gato");
-        } else {
-            System.out.println(args);
+        try {
+            //new Principal().setVisible(true);
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         }
-        System.out.println("La suma de 3 y 4 es:" + sumar(3, 4));
-        new Principal().setVisible(true);
+        catch (Exception ex) {}
+        new VentanaPrincipal().setVisible(true);
+         
     }
 
     static int sumar(int a, int b) {
