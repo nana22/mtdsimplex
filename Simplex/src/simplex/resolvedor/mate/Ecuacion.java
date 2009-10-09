@@ -90,13 +90,7 @@ public class Ecuacion {
      * @return the monomios
      */
     public Monomio[] getMonomios() {
-        Monomio [] monomiosC = new Monomio[this.monomios.size()];
-        int temp=0;
-        for(Iterator<Monomio> i = this.monomios.iterator(); i.hasNext(); ){
-            monomiosC[temp] = i.next();
-            temp++;
-        }
-        return monomiosC;
+        return monomios.toArray(new Monomio[0]);
     }
 
     /**
