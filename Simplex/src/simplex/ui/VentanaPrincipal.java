@@ -168,7 +168,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             for (int i = 0; i < rest.length; i++) {
                 rest[i] = new ValidadorEcuacion().validar(t[i]);
             }
-            con.conversiones(fo, rest);
+            changeTable(con.conversiones(fo, rest));
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
