@@ -3,7 +3,6 @@
  *
  * Created on 5/10/2009, 03:50:48 PM
  */
-
 package simplex.ui;
 
 import simplex.resolvedor.mate.Conversiones;
@@ -160,29 +159,22 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String[] t = jTextArea1.getText().split("\n");
-        Conversiones con = new Conversiones();
-        Ecuacion fo = new ValidadorEcuacion().validar(jTextField1.getText());
-        Ecuacion[] rest = new Ecuacion[t.length];
+        if (!jTextArea1.getText().isEmpty() && !jTextField1.getText().isEmpty()) {
+            String[] t = jTextArea1.getText().split("\n");
+            Conversiones con = new Conversiones();
+            Ecuacion fo = new ValidadorEcuacion().validar(jTextField1.getText());
+            Ecuacion[] rest = new Ecuacion[t.length];
 
-        for (int i = 0; i < rest.length; i++) {
-            rest[i] = new ValidadorEcuacion().validar(t[i]);
+            for (int i = 0; i < rest.length; i++) {
+                rest[i] = new ValidadorEcuacion().validar(t[i]);
+            }
+            con.conversiones(fo, rest);
         }
-        
-        con.conversiones(fo, rest);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VentanaPrincipal().setVisible(true);
-            }
-        });
+    public void changeTable(javax.swing.table.DefaultTableModel model) {
+        jTable1.setModel(model);
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
@@ -200,8 +192,4 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
-
-    public void changeTable( javax.swing.table.DefaultTableModel model ){
-        jTable1.setModel(model);
-    }
 }

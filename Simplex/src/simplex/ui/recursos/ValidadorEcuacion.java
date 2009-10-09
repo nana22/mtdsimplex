@@ -90,27 +90,31 @@ public class ValidadorEcuacion {
         try {
             ecuacion.setResultado(Integer.parseInt(string));
         } catch (NumberFormatException ex) {
+            if (string.length() != 1) {
+                Stack<Character> stVariable = new Stack<Character>();
+                Stack<Character> stConstantes = new Stack<Character>();
 
-            Stack<Character> stVariable = new Stack<Character>();
-            Stack<Character> stConstantes = new Stack<Character>();
-
-            for (int i = 0; i < string.length(); i++) {
-                if ((string.charAt(i) >= 'a') && (string.charAt(i) >= 'z')) {
-                    stVariable.push(string.charAt(i));
-                } else {
-                    stConstantes.push(string.charAt(i));
+                for (int i = 0; i < string.length(); i++) {
+                    if ((string.charAt(i) >= 'a') && (string.charAt(i) >= 'z')) {
+                        stVariable.push(string.charAt(i));
+                    } else {
+                        stConstantes.push(string.charAt(i));
+                    }
                 }
-            }
 
-            String t = "";
-            int lenConstantes = stConstantes.size();
-            for (int i = 0; i < lenConstantes; i++) {
-                t += stConstantes.pop();
+                String t = "";
+                int lenConstantes = stConstantes.size();
+                for (int i = 0; i < lenConstantes; i++) {
+                    t += stConstantes.pop();
+                }
+                t = volter(t);
+                int a = Integer.parseInt(t);
+                ecuacion.setMonomioResultado(new Monomio(a, stVariable.pop()));
+                ecuacion.setResultado(0);
+            } else {
+                ecuacion.setMonomioResultado(new Monomio(string.charAt(0)));
+                ecuacion.setResultado(0);
             }
-            t = volter(t);
-            int a = Integer.parseInt(t);
-            ecuacion.setMonomioResultado(new Monomio(a, stVariable.pop()));
-            ecuacion.setResultado(0);
         }
     }
 
@@ -123,7 +127,7 @@ public class ValidadorEcuacion {
         Stack<Character> stCoeficientesTmp = new Stack<Character>();
         Stack<Integer> stCoeficientes = new Stack<Integer>();
         Stack<Integer> coeficientes = new Stack<Integer>();
-        int numCoeficientes, lengthString = string.length() -1;
+        int numCoeficientes, lengthString = string.length() - 1;
         String tmp = "";
 
         do {
@@ -166,8 +170,8 @@ public class ValidadorEcuacion {
                 monomios[i] = new Monomio(stCoeficientes.pop(), stVariables.pop());
             }
             ecuacion.setMonomios(monomios);
-        }else{
-            throw new UnsupportedOperationException("Aun no se ha implementado una forma de tratar ecuaciones que coniene monomios son uno");
+        } else {
+            throw new UnsupportedOperationException("Aun no se ha implementado una forma de tratar ecuaciones que coniene monomios con uno");
         }
     }
 
@@ -179,9 +183,5 @@ public class ValidadorEcuacion {
             tamanyoCadena--;
         } while (tamanyoCadena > 0);
         return nuevaCadena;
-    }
-
-    public static void main(String[] args) {
-        new ValidadorEcuacion().validar("20>=3X+5Y-8D-9g+r");
     }
 }
