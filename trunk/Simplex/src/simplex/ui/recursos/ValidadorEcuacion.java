@@ -29,7 +29,7 @@ public class ValidadorEcuacion {
 
         String[] cadenaNueva = string.split("<=");
         if (cadenaNueva.length == 2) {
-            ecuacion.setResultado(Ecuacion.MENOR_IGUAL_QUE);
+            ecuacion.setTipoIgualdad(Ecuacion.MENOR_IGUAL_QUE);
             if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
                 buscarResultado(cadenaNueva[0]);
                 buscarMonomios(cadenaNueva[1]);
@@ -40,7 +40,7 @@ public class ValidadorEcuacion {
         } else {
             cadenaNueva = string.split(">=");
             if (cadenaNueva.length == 2) {
-                ecuacion.setResultado(Ecuacion.MAYOR_IGUAL_QUE);
+                ecuacion.setTipoIgualdad(Ecuacion.MAYOR_IGUAL_QUE);
                 if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
                     buscarResultado(cadenaNueva[0]);
                     buscarMonomios(cadenaNueva[1]);
@@ -51,7 +51,7 @@ public class ValidadorEcuacion {
             } else {
                 cadenaNueva = string.split("=");
                 if (cadenaNueva.length == 2) {
-                    ecuacion.setResultado(Ecuacion.IGUAL);
+                    ecuacion.setTipoIgualdad(Ecuacion.IGUAL);
                     if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
                         buscarResultado(cadenaNueva[0]);
                         buscarMonomios(cadenaNueva[1]);
@@ -62,7 +62,7 @@ public class ValidadorEcuacion {
                 } else {
                     cadenaNueva = string.split(">");
                     if (cadenaNueva.length == 2) {
-                        ecuacion.setResultado(Ecuacion.MAYOR_QUE);
+                        ecuacion.setTipoIgualdad(Ecuacion.MAYOR_QUE);
                         if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
                             buscarResultado(cadenaNueva[0]);
                             buscarMonomios(cadenaNueva[1]);
@@ -71,7 +71,7 @@ public class ValidadorEcuacion {
                             buscarMonomios(cadenaNueva[0]);
                         }
                     } else {
-                        ecuacion.setResultado(Ecuacion.MENOR_QUE);
+                        ecuacion.setTipoIgualdad(Ecuacion.MENOR_QUE);
                         if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
                             buscarResultado(cadenaNueva[0]);
                             buscarMonomios(cadenaNueva[1]);

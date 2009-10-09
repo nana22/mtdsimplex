@@ -1,29 +1,32 @@
 package simplex.resolvedor.mate;
+
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Marco
  */
 public class Conversiones {
 
-private String varBasic[];
-private String tempVB[];
-private String var[];
+    private String varBasic[];
+    private String tempVB[];
+    private String var[];
 
-    public DefaultTableModel conversiones( Ecuacion FO, Ecuacion [] rest ){
+    public DefaultTableModel conversiones(Ecuacion FO, Ecuacion[] rest) {
         tratarFO(FO);
         tratarRestric(rest);
         SimplexTable table = new SimplexTable();
         table.setVarBasics(varBasic);
         table.setVarNs(var);
-        DefaultTableModel modelitop= new DefaultTableModel();
-        modelitop = table.SimplexTable(FO, rest);
+        DefaultTableModel modelitop = new DefaultTableModel();
+        modelitop = table.simplexTable(FO, rest);
         return modelitop;
     }
-    public void tratarFO( Ecuacion FO ){
+
+    private void tratarFO(Ecuacion FO) {
         Monomio monomiosFO[] = FO.getMonomios();
         var = new String[monomiosFO.length];
-        for (int i=0; i<monomiosFO.length; i++){
+        for (int i = 0; i < monomiosFO.length; i++) {
             var[i] = Character.toString(monomiosFO[i].getVariable());
         }
         Monomio z = FO.getMonomioResultado();
@@ -32,48 +35,51 @@ private String var[];
         FO.setResultado(0);
         FO.addMononio(z);
     }
-    
-    public void tratarRestric( Ecuacion [] restricciones){
+
+    private void tratarRestric(Ecuacion[] restricciones) {
         int tama = restricciones.length;
         tempVB = new String[0];
-        char holgura = 99;
-        for (int i=0; i<tama; i++){
+        char holgura = 'c';
+        for (int i = 0; i < tama; i++) {
             //Checando restricciones
             int igualdad = restricciones[i].getTipoIgualdad();
-            switch (igualdad){
-                case 0: 
+            switch (igualdad) {
+                case Ecuacion.IGUAL:
                     //Se Conserva igual
                     break;
-                case 3:
+                case Ecuacion.MAYOR_IGUAL_QUE:
                     restricciones[i].setTipoIgualdad(0);
-                    restricciones[i].addMononio( new Monomio( -1 , holgura ));
-                    varBasic = new String[tempVB.length+1];
-                    for (int j=0; j<tempVB.length; j++){
+                    restricciones[i].addMononio(new Monomio(-1, holgura));
+                    varBasic = new String[tempVB.length + 1];
+                    for (int j = 0; j < tempVB.length; j++) {
                         varBasic[j] = tempVB[j];
                     }
                     varBasic[tempVB.length] = Character.toString(holgura);
                     tempVB = varBasic;
                     holgura++;
                     break;
-                case 4:
+                case Ecuacion.MENOR_IGUAL_QUE:
                     restricciones[i].setTipoIgualdad(0);
-                    restricciones[i].addMononio( new Monomio( 1 , holgura ));
-                    varBasic = new String[tempVB.length+1];
-                    for (int j=0; j<tempVB.length; j++){
+                    restricciones[i].addMononio(new Monomio(1, holgura));
+                    varBasic = new String[tempVB.length + 1];
+                    for (int j = 0; j < tempVB.length; j++) {
                         varBasic[j] = tempVB[j];
                     }
                     varBasic[tempVB.length] = Character.toString(holgura);
                     tempVB = varBasic;
                     holgura++;
                     break;
-                default: ;//TODO No hay variables de error para cachar
+                default:
+                    break;//TODO No hay variables de error para cachar
             }
         }
     }
-    public String[] getVarBasic(){
+
+    public String[] getVarBasic() {
         return varBasic;
     }
-    public String[] getVar(){
+
+    public String[] getVar() {
         return var;
     }
 }
