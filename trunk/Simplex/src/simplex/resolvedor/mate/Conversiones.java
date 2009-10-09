@@ -10,7 +10,7 @@ private String varBasic[];
 private String tempVB[];
 private String var[];
 
-    public DefaultTableModel Conversiones( Ecuacion FO, Ecuacion [] rest ){
+    public DefaultTableModel conversiones( Ecuacion FO, Ecuacion [] rest ){
         tratarFO(FO);
         tratarRestric(rest);
         SimplexTable table = new SimplexTable();

@@ -24,7 +24,7 @@ public class Main {
             
         
         Conversiones conv = new Conversiones();
-        init.changeTable( conv.Conversiones( ecua, conecu ) );
+        init.changeTable( conv.conversiones( ecua, conecu ) );
         //Fin pruebas
         
     }

@@ -22,60 +22,96 @@ public class ValidadorEcuacion {
     private Monomio[] monomios;
     private Ecuacion ecuacion;
 
-    /**
-     *
-     * @param string
-     * @return Ecuacion
-     */
     public Ecuacion validar(String string) {
         ecuacion = new Ecuacion(new Monomio[]{new Monomio('x')}, Ecuacion.IGUAL, null);
         string = string.trim();
         string = string.toLowerCase();
-        String[] cadenaNueva = string.split("=");
 
+        String[] cadenaNueva = string.split("<=");
         if (cadenaNueva.length == 2) {
+            ecuacion.setResultado(Ecuacion.MENOR_IGUAL_QUE);
             if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
-                buscarResultado(cadenaNueva);
+                buscarResultado(cadenaNueva[0]);
                 buscarMonomios(cadenaNueva[1]);
-                ecuacion.setMonomios(monomios);
             } else {
-                buscarResultado(new String[]{cadenaNueva[1], cadenaNueva[0]});
+                buscarResultado(cadenaNueva[1]);
                 buscarMonomios(cadenaNueva[0]);
-                ecuacion.setMonomios(monomios);
             }
         } else {
-            cadenaNueva = string.split(">");
+            cadenaNueva = string.split(">=");
             if (cadenaNueva.length == 2) {
+                ecuacion.setResultado(Ecuacion.MAYOR_IGUAL_QUE);
                 if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
-                    if ((cadenaNueva[0].charAt(0) >= 'a') && (cadenaNueva[0].charAt(0) <= 'z')) {
-                        ecuacion.setMonomioResultado(new Monomio(string.charAt(0)));
-                    } else {
-                        ecuacion.setResultado(string.charAt(0) - 48);
-                    }
-                    ecuacion.setTipoIgualdad(Ecuacion.MAYOR_QUE);
+                    buscarResultado(cadenaNueva[0]);
+                    buscarMonomios(cadenaNueva[1]);
                 } else {
-                    buscarResultado(new String[]{cadenaNueva[1], cadenaNueva[0]});
+                    buscarResultado(cadenaNueva[1]);
                     buscarMonomios(cadenaNueva[0]);
-                    ecuacion.setMonomios(monomios);
                 }
-            }
-            cadenaNueva = string.split("<");
-            if (cadenaNueva.length == 2) {
-                if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
-                    if ((cadenaNueva[0].charAt(0) >= 'a') && (cadenaNueva[0].charAt(0) <= 'z')) {
-                        ecuacion.setMonomioResultado(new Monomio(string.charAt(0)));
+            } else {
+                cadenaNueva = string.split("=");
+                if (cadenaNueva.length == 2) {
+                    ecuacion.setResultado(Ecuacion.IGUAL);
+                    if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
+                        buscarResultado(cadenaNueva[0]);
+                        buscarMonomios(cadenaNueva[1]);
                     } else {
-                        ecuacion.setResultado(string.charAt(0) - 48);
+                        buscarResultado(cadenaNueva[1]);
+                        buscarMonomios(cadenaNueva[0]);
                     }
-                    ecuacion.setTipoIgualdad(Ecuacion.MENOR_QUE);
                 } else {
-                    buscarResultado(new String[]{cadenaNueva[1], cadenaNueva[0]});
-                    buscarMonomios(cadenaNueva[0]);
-                    ecuacion.setMonomios(monomios);
+                    cadenaNueva = string.split(">");
+                    if (cadenaNueva.length == 2) {
+                        ecuacion.setResultado(Ecuacion.MAYOR_QUE);
+                        if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
+                            buscarResultado(cadenaNueva[0]);
+                            buscarMonomios(cadenaNueva[1]);
+                        } else {
+                            buscarResultado(cadenaNueva[1]);
+                            buscarMonomios(cadenaNueva[0]);
+                        }
+                    } else {
+                        ecuacion.setResultado(Ecuacion.MENOR_QUE);
+                        if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
+                            buscarResultado(cadenaNueva[0]);
+                            buscarMonomios(cadenaNueva[1]);
+                        } else {
+                            buscarResultado(cadenaNueva[1]);
+                            buscarMonomios(cadenaNueva[0]);
+                        }
+                    }
                 }
             }
         }
         return ecuacion;
+    }
+
+    private void buscarResultado(String string) {
+        try {
+            ecuacion.setResultado(Integer.parseInt(string));
+        } catch (NumberFormatException ex) {
+
+            Stack<Character> stVariable = new Stack<Character>();
+            Stack<Character> stConstantes = new Stack<Character>();
+
+            for (int i = 0; i < string.length(); i++) {
+                if ((string.charAt(i) >= 'a') && (string.charAt(i) >= 'z')) {
+                    stVariable.push(string.charAt(i));
+                } else {
+                    stConstantes.push(string.charAt(i));
+                }
+            }
+
+            String t = "";
+            int lenConstantes = stConstantes.size();
+            for (int i = 0; i < lenConstantes; i++) {
+                t += stConstantes.pop();
+            }
+            t = volter(t);
+            int a = Integer.parseInt(t);
+            ecuacion.setMonomioResultado(new Monomio(a, stVariable.pop()));
+            ecuacion.setResultado(0);
+        }
     }
 
     /**
@@ -87,7 +123,7 @@ public class ValidadorEcuacion {
         Stack<Character> stCoeficientesTmp = new Stack<Character>();
         Stack<Integer> stCoeficientes = new Stack<Integer>();
         Stack<Integer> coeficientes = new Stack<Integer>();
-        int lengthString = string.length() - 1, numCoeficientes;
+        int numCoeficientes, lengthString = string.length() -1;
         String tmp = "";
 
         do {
@@ -129,31 +165,23 @@ public class ValidadorEcuacion {
             for (int i = 0; i < numCoeficientes; i++) {
                 monomios[i] = new Monomio(stCoeficientes.pop(), stVariables.pop());
             }
+            ecuacion.setMonomios(monomios);
+        }else{
+            throw new UnsupportedOperationException("Aun no se ha implementado una forma de tratar ecuaciones que coniene monomios son uno");
         }
     }
 
-    private void buscarResultado(String[] cadenaNueva) {
-        if ((cadenaNueva[0].charAt(0) >= 'a') && (cadenaNueva[0].charAt(0) <= 'z')) {
-            ecuacion.setMonomioResultado(new Monomio(cadenaNueva[0].charAt(0)));
-        } else {
-            ecuacion.setResultado(cadenaNueva[0].charAt(0) - 48);
-        }
-        if (cadenaNueva[0].length() == 2) {
-            switch (cadenaNueva[0].charAt(1)) {
-                case '<':
-                    ecuacion.setTipoIgualdad(Ecuacion.MENOR_IGUAL_QUE);
-                    break;
-                case '>':
-                    ecuacion.setTipoIgualdad(Ecuacion.MAYOR_IGUAL_QUE);
-                    break;
-            }
-        }
+    private String volter(String cadena) {
+        String nuevaCadena = "";
+        int tamanyoCadena = cadena.length();
+        do {
+            nuevaCadena += cadena.charAt(tamanyoCadena - 1);
+            tamanyoCadena--;
+        } while (tamanyoCadena > 0);
+        return nuevaCadena;
     }
 
     public static void main(String[] args) {
-        //new ValidadorEcuacion().validar("f<=-3x-5y+6z+10w");
-        //new ValidadorEcuacion().validar("3X+5Y=z");
-        //dividir("3X+5Y-8D-9g+rq");//TODO ERROR: no se logra meter el 1 de r
-        //dividir("3X+5Y-D-9g+r");//TODO ERROR: similar al anterior pero en -1 de D
+        new ValidadorEcuacion().validar("20>=3X+5Y-8D-9g+r");
     }
 }
