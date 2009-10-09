@@ -29,8 +29,7 @@ public class Ecuacion {
    public static final int MAYOR_IGUAL_QUE = 3;
    public static final int MENOR_IGUAL_QUE = 4;
    private int tipoIgualdad;
-   private List <Monomio> monomios;
-   private Monomio[] prueba;
+   private List <Monomio> monomios;  
    private Monomio monomioResultado;
    private int resultado;
 
