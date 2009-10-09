@@ -48,7 +48,7 @@ public class Conversiones {
                     //Se Conserva igual
                     break;
                 case Ecuacion.MAYOR_IGUAL_QUE:
-                    restricciones[i].setTipoIgualdad(0);
+                    restricciones[i].setTipoIgualdad(Ecuacion.IGUAL);
                     restricciones[i].addMononio(new Monomio(-1, holgura));
                     varBasic = new String[tempVB.length + 1];
                     for (int j = 0; j < tempVB.length; j++) {
@@ -59,7 +59,7 @@ public class Conversiones {
                     holgura++;
                     break;
                 case Ecuacion.MENOR_IGUAL_QUE:
-                    restricciones[i].setTipoIgualdad(0);
+                    restricciones[i].setTipoIgualdad(Ecuacion.IGUAL);
                     restricciones[i].addMononio(new Monomio(1, holgura));
                     varBasic = new String[tempVB.length + 1];
                     for (int j = 0; j < tempVB.length; j++) {
