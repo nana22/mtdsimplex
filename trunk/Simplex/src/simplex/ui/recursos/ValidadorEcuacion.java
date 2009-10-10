@@ -1,5 +1,5 @@
 /*
- * (#)ValidarEcuacion.java 1.15
+ * @(#)ValidarEcuacion.java 2.0.2 10/10/09
  * @charset "utf-8";
  * Copyright (c) pendiente.
  */
@@ -15,13 +15,21 @@ import simplex.resolvedor.mate.Monomio;
  * un formato que permita la operacion de una manera más sencilla.
  *
  * @author Neo Cs || [El Ángel Blanco]
- * @version 1.17
+ * @version 2.0.2 10/10/09
  */
 public class ValidadorEcuacion {
 
+    /** Arreglo de monomios que será añadido a {@link #ecuacion} */
     private Monomio[] monomios;
+    /** Ecuacion que será devuelta por {@link #validar(java.lang.String)} */
     private Ecuacion ecuacion;
 
+    /**
+     * Crea una <tt>Ecuacion</tt> a partir de una <tt>String</tt>.
+     *
+     * @param string {@code String} "3x + 8y = 12"
+     * @return {@code Ecuacion}
+     */
     public Ecuacion validar(String string) {
         ecuacion = new Ecuacion(new Monomio[]{new Monomio('x')}, Ecuacion.IGUAL, null);
         string = string.trim();
@@ -86,6 +94,10 @@ public class ValidadorEcuacion {
         return ecuacion;
     }
 
+    /**
+     * 
+     * @param string
+     */
     private void buscarResultado(String string) {
         try {
             ecuacion.setResultado(Integer.parseInt(string));
@@ -200,6 +212,13 @@ public class ValidadorEcuacion {
         }
     }
 
+    /**
+     * <p>Invierte la cadena que recibe.</p>
+     * <p>Recibe "Animal" y devuele "laminA"</p>
+     *
+     * @param cadena
+     * @return {@code String}
+     */
     private String volter(String cadena) {
         String nuevaCadena = "";
         int tamanyoCadena = cadena.length();

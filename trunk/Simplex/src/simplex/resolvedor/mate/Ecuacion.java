@@ -1,5 +1,5 @@
 /*
- * (#)Ecuacion.java 1.2
+ * @(#)Ecuacion.java 1.7.1 10/10/09
  * @charset "utf-8";
  * Copyright (c) pendiente.
  */
@@ -7,7 +7,6 @@
 package simplex.resolvedor.mate;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +17,7 @@ import java.util.logging.Logger;
  * que sean graficados.
  *
  * @author Neo Cs || [El Ángel Blanco]
- * @version 1.3
+ * @version 1.7.1, 10/10/09
  */
 
 public class Ecuacion {
@@ -117,6 +116,11 @@ public class Ecuacion {
         this.resultado = resultado;
     }
 
+    /**
+     * Añade un <tt>Monomio</tt> al objeto <tt>Ecuacion</tt>
+     * 
+     * @param monomio {@code Monomio}
+     */
     public void addMononio(Monomio monomio){
         monomios.add(monomio);
     }
