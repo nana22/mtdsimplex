@@ -160,6 +160,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (!jTextArea1.getText().isEmpty() && !jTextField1.getText().isEmpty()) {
+            jTextArea1.setText(jTextArea1.getText().toLowerCase());
+            jTextField1.setText(jTextField1.getText().toLowerCase());
             String[] t = jTextArea1.getText().split("\n");
             Conversiones con = new Conversiones();
             Ecuacion fo = new ValidadorEcuacion().validar(jTextField1.getText());
@@ -172,7 +174,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public void changeTable(javax.swing.table.DefaultTableModel model) {
+    private void changeTable(javax.swing.table.DefaultTableModel model) {
         jTable1.setModel(model);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

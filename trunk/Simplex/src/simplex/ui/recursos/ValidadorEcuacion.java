@@ -123,55 +123,80 @@ public class ValidadorEcuacion {
      * @param string
      */
     private void buscarMonomios(String string) {
-        Stack<Character> stVariables = new Stack<Character>();
-        Stack<Character> stCoeficientesTmp = new Stack<Character>();
-        Stack<Integer> stCoeficientes = new Stack<Integer>();
-        Stack<Integer> coeficientes = new Stack<Integer>();
-        int numCoeficientes, lengthString = string.length() - 1;
-        String tmp = "";
+        if (string.length() == 1) {
+            monomios = new Monomio[1];
+            monomios[0] = new Monomio(string.charAt(0));
+            ecuacion.setMonomios(monomios);
+        } else {
+            Stack<Character> stVariables = new Stack<Character>();
+            Stack<Character> stCoeficientesTmp = new Stack<Character>();
+            Stack<Integer> stCoeficientes = new Stack<Integer>();
+            Stack<Integer> coeficientes = new Stack<Integer>();
+            int numCoeficientes = 0, lengthString = string.length() - 1, numVariables = 0;
+            String tmp = "";
 
-        do {
-            if ((string.charAt(lengthString) >= 'a') && (string.charAt(lengthString) <= 'z')) {
-                stVariables.push(string.charAt(lengthString));
-            } else {
-                stCoeficientesTmp.push(string.charAt(lengthString));
-            }
-            lengthString--;
-        } while (lengthString != -1);
+            do {
+                if ((string.charAt(lengthString) >= 'a') && (string.charAt(lengthString) <= 'z')) {
+                    stVariables.push(string.charAt(lengthString));
+                } else {
+                    stCoeficientesTmp.push(string.charAt(lengthString));
+                }
+                lengthString--;
+            } while (lengthString != -1);
 
-        do {
-            if ((stCoeficientesTmp.peek() == '-') || (stCoeficientesTmp.peek() == '+')) {
-                if (tmp.length() != 0) {
-                    coeficientes.push(Integer.parseInt(tmp));
-                    tmp = "";
-                } else if (stCoeficientesTmp.peek() == '+') {
-                    stCoeficientesTmp.pop();
+            do {
+                if ((stCoeficientesTmp.peek() == '-') || (stCoeficientesTmp.peek() == '+')) {
+                    if (tmp.length() != 0) {
+                        coeficientes.push(Integer.parseInt(tmp));
+                        tmp = "";
+                    } else if (stCoeficientesTmp.peek() == '+') {
+                        stCoeficientesTmp.pop();
+                    } else {
+                        tmp += stCoeficientesTmp.pop();
+                    }
                 } else {
                     tmp += stCoeficientesTmp.pop();
                 }
-            } else {
-                tmp += stCoeficientesTmp.pop();
+            } while (!stCoeficientesTmp.isEmpty());
+
+            if (!tmp.isEmpty()) {
+                coeficientes.push(Integer.parseInt(tmp));
+                tmp = "";
             }
-        } while (!stCoeficientesTmp.isEmpty());
 
-        if (!tmp.isEmpty()) {
-            coeficientes.push(Integer.parseInt(tmp));
-            tmp = "";
-        }
+            numCoeficientes = coeficientes.size();
+            numVariables = stVariables.size();
 
-        numCoeficientes = coeficientes.size();
-        for (int i = 0; i < numCoeficientes; i++) {
-            stCoeficientes.push(coeficientes.pop());
-        }
-
-        if (stCoeficientes.size() == stVariables.size()) {
-            monomios = new Monomio[stCoeficientes.size()];
             for (int i = 0; i < numCoeficientes; i++) {
-                monomios[i] = new Monomio(stCoeficientes.pop(), stVariables.pop());
+                stCoeficientes.push(coeficientes.pop());
             }
-            ecuacion.setMonomios(monomios);
-        } else {
-            throw new UnsupportedOperationException("Aun no se ha implementado una forma de tratar ecuaciones que coniene monomios con uno");
+
+            if (numCoeficientes == numVariables) {
+                monomios = new Monomio[numCoeficientes];
+                for (int i = 0; i < numCoeficientes; i++) {
+                    monomios[i] = new Monomio(stCoeficientes.pop(), stVariables.pop());
+                }
+                ecuacion.setMonomios(monomios);
+            } else {
+                monomios = new Monomio[numVariables];
+                for (int i = 0; i < numVariables; i++) {
+                    if (!stCoeficientes.isEmpty()) {
+                        int cons = stCoeficientes.pop();
+                        char ch = stVariables.pop();
+                        tmp = cons + "" + ch;
+                        if (string.indexOf(tmp) != -1) {
+                            monomios[i] = new Monomio(cons, ch);
+                        } else {
+                            monomios[i] = new Monomio(ch);
+                            stCoeficientes.push(cons);
+                            tmp = "";
+                        }
+                    } else {
+                        monomios[i] = new Monomio(stVariables.pop());
+                    }
+                }
+                ecuacion.setMonomios(monomios);
+            }
         }
     }
 

@@ -18,9 +18,7 @@ public class Conversiones {
         SimplexTable table = new SimplexTable();
         table.setVarBasics(varBasic);
         table.setVarNs(var);
-        DefaultTableModel modelitop = new DefaultTableModel();
-        modelitop = table.simplexTable(FO, rest);
-        return modelitop;
+        return table.simplexTable(FO, rest);
     }
 
     private void tratarFO(Ecuacion FO) {
