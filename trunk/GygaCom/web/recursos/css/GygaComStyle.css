@@ -1,0 +1,64 @@
+/* 
+    Document   : GygaComStyle
+    Created on : 13/10/2009, 11:36:25 AM
+    Author     : Neo Cs
+    Description: Estilo para Gygacom.
+*/
+body{
+    background-image: url(../images/fondo.jpg);
+    /*background-color: #66ffcc;*/
+}
+
+#outerBorder {
+    margin: 20px 80px 0px 80px;
+    padding: 0px 10px 10px 10px;
+}
+
+#header {
+    height:150px;
+    margin : 0px 0px 20px 0px;
+    border: 2px solid #ffffff;
+    background-image: url(../images/banner.jpg);
+    background-repeat: no-repeat;
+}
+
+#subheader {
+    clear:both;
+    margin: 0px 0px 0px 0px;
+    height: 20px;
+    color: #000000;
+}
+
+#subheader div {
+    font-size:15px;
+    float:right;
+    margin: 38px 0px 0px 0px;
+}
+
+#main {
+    background-image: url(../images/fondo_contenedor.jpg);
+    background-attachment:scroll;
+    background-repeat: repeat-y;
+}
+
+#content {
+    margin: 0 0 0 0px;
+    border: 2px solid #ffffff;
+}
+
+#banner {
+    margin: 0px 40px 0px 0px;
+    display:table-cell;
+    vertical-align:middle;
+    font-size:35px;
+}
+
+#footer {
+    height:150px;
+    clear: both;
+    text-align:center;
+    border: 2px solid #ffffff;
+    margin: 20px 0px 0px 0px;
+    background-image:url(../images/footer.jpg);
+}
+
