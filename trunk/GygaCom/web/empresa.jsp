@@ -45,14 +45,23 @@
                             </ul>
                         </li>
                         <li><a href="#">Soporte</a></li>
-                        <li><a href="empresa.jsp">La empresa</a></li>
+                        <li><a href="#">La empresa</a></li>
                     </ul>
                 </div> <!-- sub-header -->
             </div> <!-- header -->
 
             <div id="main">
                 <div id="content" style="height:800px;">
-                    <p>Gygacom se caracteriza por ser una empresa que trabaja productos de calidad para distintos ámbitos desde la iniciativa privada pasando por lo educativo hasta lo gubernamental, realiza soluciones en tecnologías de información, recuperación de información y a campañas publicitarias.</p>
+                    <h1>La empresa</h1>
+                    <p>
+                        El nacimiento de Nuestra Empresa se deriva de la persistencia de un grupo de estudiantes  visionarios, unidos por un firme compromiso, el aportar nuestros conocimientos a empresas en las diferentes divisiones de las que hoy
+                        conforman GIGACOM; y que juntos dirigieron sus esfuerzos hacia la creación y formación de bases sólidas, que con el tiempo sustentarían lo que hoy en día representa Nuestro Grupo; el cual pretende probar su capacidad para superar los
+                        retos surgidos, y ha llenar las expectativas de nuestro grupo de clientes.<br/>
+                        Comprendemos la importancia de invertir para desarrollar tecnología en sus diferentes áreas, con el fin de descubrir, conservar, engrandecer y aprovechar al máximo, el potencial que la experiencia nos ha brindado.
+                    </p>
+                    <h2>Nuestra misión</h2>
+                    <p>Nuestra misión es producir soluciones empresariales a la altura de las necesidades de nuestros clientes, ofreciendo servicios de calidad y prestando especial atención a los requerimientos de las mismas, comprometiéndonos, en tiempo, lugar y modo, para optimizar los procesos de nuestros clientes.</p>
+
                 </div> <!-- content -->
             </div> <!-- main -->
             <div id="footer">

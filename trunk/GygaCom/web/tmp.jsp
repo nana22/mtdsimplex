@@ -45,14 +45,13 @@
                             </ul>
                         </li>
                         <li><a href="#">Soporte</a></li>
-                        <li><a href="empresa.jsp">La empresa</a></li>
+                        <li><a href="#">La empresa</a></li>
                     </ul>
                 </div> <!-- sub-header -->
             </div> <!-- header -->
 
             <div id="main">
-                <div id="content" style="height:800px;">
-                    <p>Gygacom se caracteriza por ser una empresa que trabaja productos de calidad para distintos ámbitos desde la iniciativa privada pasando por lo educativo hasta lo gubernamental, realiza soluciones en tecnologías de información, recuperación de información y a campañas publicitarias.</p>
+                <div id="content" style="height:800px;">                    
                 </div> <!-- content -->
             </div> <!-- main -->
             <div id="footer">
