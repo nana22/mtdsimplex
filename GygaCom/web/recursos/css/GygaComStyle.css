@@ -39,11 +39,12 @@ body{
     background-image: url(../images/fondo_contenedor.jpg);
     background-attachment:scroll;
     background-repeat: repeat-y;
+    border: 2px solid #ffffff;
 }
 
 #content {
-    margin: 0 0 0 0px;
-    border: 2px solid #ffffff;
+    margin: 0 0 25px 20px;
+    color: #ffffff;
 }
 
 #banner {
@@ -60,5 +61,10 @@ body{
     border: 2px solid #ffffff;
     margin: 20px 0px 0px 0px;
     background-image:url(../images/footer.jpg);
+}
+
+#footer p{
+    color:#ffffff;
+    text-align:center;
 }
 
