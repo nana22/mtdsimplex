@@ -14,13 +14,14 @@
         <title>logueado</title>
     </head>
     <body>
-
+        <p>hola usuario:
 <%
       request.getAttribute("usuario");
       request.getAttribute("pass");
 
-
+      out.write(request.getAttribute("usuario").toString());
+                
 %>
-
+        </p>
     </body>
 </html>
