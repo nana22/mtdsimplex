@@ -34,26 +34,29 @@ public class loguin extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-          usuario usr = new usuario();
+            usuario usr = new usuario();
 
-          usr.setNombreUsuario(request.getParameter("usuario"));
-          usr.setPassword(request.getParameter("pass"));
-          String usuario=usr.getNombreUsuario();
-          String pass = usr.getPassword();
-          loguinUsuario log = new loguinUsuario();
-          
+            usr.setNombreUsuario(request.getParameter("usuario"));
+            usr.setPassword(request.getParameter("pass"));
+            String usuario = usr.getNombreUsuario();
+            String pass = usr.getPassword();
+            loguinUsuario log = new loguinUsuario();
+
             log.busca(usuario, pass);
 
 //            ArrayList x = new ArrayList();
-//           Iterator<String> itr = x.iterator();
-//               while(itr.hasNext()){
-//                   String cad=itr.next();
-//                   System.out.println(cad);
+//            Iterator<String> itr = x.iterator();
+//            while (itr.hasNext()) {
+//                String cad = itr.next();
+//                System.out.println(cad);
 //            getServletContext().getRequestDispatcher("/logueado.jsp").forward(request, response);
-//               }
+                request.setAttribute("usuario", "user");
+                request.setAttribute("pass", "password");
+                request.getRequestDispatcher("logueado.jsp").forward(request, response);
+//            }
 
 
-           
+
         } finally { 
             out.close();
         }

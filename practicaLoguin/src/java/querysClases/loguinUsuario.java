@@ -44,14 +44,14 @@ public void busca(String usuario, String pass){
         try {
             Statement st = conex.createStatement();
          
-            ResultSet rs=st.executeQuery("select nombreUsuario, password from usuario where nombreUsuario like'%"+usuario+"%' and password like'%"+pass+"%'");
+            ResultSet rs=st.executeQuery("select claveEmpleado,nombreUsuario, password from usuario where nombreUsuario like'%"+usuario+"%' and password like'%"+pass+"%'");
 
             if(rs.next()){
-//                  datos dat = new datos();
-//                String clave=rs.getString("claveEmpleado");
-//                dat.setPass(rs.getString("nombreUsuario"));
-//                dat.setUsuario(rs.getString("password"));
-//                lista.add(dat);
+                datos dat = new datos();
+                String clave = rs.getString("claveEmpleado");
+                dat.setPass(rs.getString("nombreUsuario"));
+                dat.setUsuario(rs.getString("password"));
+                lista.add(dat);
 
             System.out.println("usuario valido");
             }else{
