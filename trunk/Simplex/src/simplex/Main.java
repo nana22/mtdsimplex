@@ -11,6 +11,7 @@ public class Main {
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("hola");
+            System.out.println("este es otraprueba");
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
