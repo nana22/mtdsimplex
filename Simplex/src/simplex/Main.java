@@ -10,6 +10,7 @@ public class Main {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (Exception ex) {
             ex.printStackTrace();
+            System.out.println("hola");
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
