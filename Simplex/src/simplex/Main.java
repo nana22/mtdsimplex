@@ -7,7 +7,9 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            if (System.getProperty("os.name").contains("Windows")) {
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("hola");
