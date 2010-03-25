@@ -19,12 +19,10 @@ public class SimplexTabular {
     
     public SimplexTabular(Ecuacion funcionObjetivo, Ecuacion rest[]){
         this.funcionObjetivo = funcionObjetivo;
-        
     }
+
     public void maximizar(){
         igualarCero();
-
-
     }
 
     private void igualarCero(){
