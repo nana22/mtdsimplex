@@ -1,26 +1,31 @@
 package simplex;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import simplex.ui.VentanaPrincipal;
 
-public class Main {
+public class Main implements Runnable {
 
     public static void main(String[] args) {
-        try {
-            if (System.getProperty("os.name").contains("Windows")) {
+        java.awt.EventQueue.invokeLater(new Main());
+    }
+
+    public void run() {
+        if (System.getProperty("os.name").contains("Windows")) {
+            try {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InstantiationException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedLookAndFeelException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("hola");
-            System.out.println("este es otraprueba");
         }
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                new VentanaPrincipal().setVisible(true);
-            }
-        });
+        new VentanaPrincipal().setVisible(true);
     }
 }
