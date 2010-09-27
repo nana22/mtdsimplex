@@ -3,8 +3,9 @@
  * @charset "utf-8";
  * Copyright (c) pendiente.
  */
-
 package simplex.resolvedor.mate;
+
+import java.io.Serializable;
 
 /**
  * <p>La clase <code>Monomio</code> describe a un monomio matemático con cada una 
@@ -16,12 +17,20 @@ package simplex.resolvedor.mate;
  * @author Neo Cs || [El Ángel Blanco]
  * @version 1.2.3, 10/10/09
  */
-public class Monomio {
+public class Monomio implements Comparable<Monomio>, Serializable {
 
-    //TODO Cambiar la definicion de coeficiente a double pues un coefieciente puede ser fraccionario
-    private int coeficiente;
+    private static final long serialVersionUID = 4616250324575701847L;
+    private double coeficiente;
     private double exponente;
     private char variable;
+    private int subindice;
+
+    public Monomio(double coeficiente, char variable, int subindice, double exponente) {
+        setCoeciente(coeficiente);
+        setVariable(variable);
+        setSubindice(subindice);
+        setExponente(exponente);
+    }
 
     /**
      *
@@ -29,10 +38,8 @@ public class Monomio {
      * @param variable
      * @param exponente
      */
-    public Monomio(int coeficiente, char variable, double exponente){
-        setCoeciente(coeficiente);
-        setExponente(exponente);
-        setVariable(variable);
+    public Monomio(double coeficiente, char variable, double exponente) {
+        this(coeficiente, variable, 1, exponente);
     }
 
     /**
@@ -40,16 +47,8 @@ public class Monomio {
      * @param coeficiente
      * @param variable
      */
-    public Monomio(int coeficiente, char variable){
+    public Monomio(double coeficiente, char variable) {
         this(coeficiente, variable, 1.0);
-    }
-
-    /**
-     *
-     * @param variable
-     */
-    public Monomio(char variable){
-        this(1, variable);
     }
 
     /**
@@ -58,35 +57,29 @@ public class Monomio {
      * @param exponente
      */
     public Monomio(char variable, double exponente) {
-        this(1,variable,exponente);
+        this(1, variable, exponente);
+    }
+
+    /**
+     *
+     * @param variable
+     */
+    public Monomio(char variable) {
+        this(1, variable);
     }
 
     /**
      * @return the constante
      */
-    public int getCoeficiente() {
+    public double getCoeficiente() {
         return coeficiente;
     }
 
     /**
      * @param constanate the constante to set
      */
-    public void setCoeciente(int constanate) {
+    public void setCoeciente(double constanate) {
         this.coeficiente = constanate;
-    }
-
-    /**
-     * @return the exponente
-     */
-    public double getExponente() {
-        return exponente;
-    }
-
-    /**
-     * @param exponente the exponente to set
-     */
-    public void setExponente(double exponente) {
-        this.exponente = exponente;
     }
 
     /**
@@ -103,4 +96,66 @@ public class Monomio {
         this.variable = variable;
     }
 
+    /**
+     * Get the value of subindice
+     *
+     * @return the value of subindice
+     */
+    public int getSubindice() {
+        return subindice;
+    }
+
+    /**
+     * Set the value of subindice
+     *
+     * @param subindice new value of subindice
+     */
+    public void setSubindice(int subindice) {
+        this.subindice = subindice;
+    }
+
+    /**
+     * @return the exponente
+     */
+    public double getExponente() {
+        return exponente;
+    }
+
+    /**
+     * @param exponente the exponente to set
+     */
+    public void setExponente(double exponente) {
+        this.exponente = exponente;
+    }
+
+//TODO Implementar metodo compareTo(Monomio monomio)
+    public int compareTo(Monomio monomio) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object instanceof Monomio) {
+            return object.hashCode() == hashCode();
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.coeficiente) ^ (Double.doubleToLongBits(this.coeficiente) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.exponente) ^ (Double.doubleToLongBits(this.exponente) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.subindice) ^ (Double.doubleToLongBits(this.subindice) >>> 32));
+        hash = 37 * hash + this.variable;
+        return hash;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(coeficiente) + String.valueOf(variable) + String.valueOf(subindice) + '^' + String.valueOf(exponente);
+    }
 }
