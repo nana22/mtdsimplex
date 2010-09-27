@@ -1,6 +1,5 @@
 package simplex.resolvedor.mate;
 
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -34,8 +33,8 @@ public class SimplexTable {
         return modelo;
     }
 
-    private DefaultTableModel newTable(String Colums[]) {
-        JTable jTable1 = new JTable();
+    private DefaultTableModel newTable(String colums[]) {
+        //JTable jTable1 = new JTable();
         DefaultTableModel modNuevo = new DefaultTableModel();
         for (int i = 0; i < colNames.length; i++) {
             modNuevo.addColumn(colNames[i]);
@@ -74,14 +73,14 @@ public class SimplexTable {
                 RowFO[0] = colVarsB[llen];
             } catch (Exception error) {
             }
-            RowFO[1] = Integer.toString(llen);
-            RowFO[colNames.length - 2] = Integer.toString(nuevaEc[llen].getResultado());
+            RowFO[1] = String.valueOf(llen);
+            RowFO[colNames.length - 2] = String.valueOf(nuevaEc[llen].getResultado());
             Monomio temp[] = nuevaEc[llen].getMonomios();
             for (int i = 2; i < colNames.length - 2; i++) {
                 for (int j = 0; j < temp.length; j++) {
                     String caract = Character.toString(temp[j].getVariable());
                     if (caract.equalsIgnoreCase(colNames[i])) {
-                        RowFO[i] = Integer.toString(temp[j].getCoeficiente());
+                        RowFO[i] = String.valueOf(temp[j].getCoeficiente());
                     }
                 }
             }
@@ -114,9 +113,7 @@ public class SimplexTable {
 
     private void setVarTOT() {
         varTOT = new String[(varBasics.length + varNs.length)];
-        for (int i = 0; i < varNs.length; i++) {
-            varTOT[i] = varNs[i];
-        }
+        System.arraycopy(varNs, 0, varTOT, 0, varNs.length);
         for (int i = 0, j = varNs.length; j < varTOT.length; i++, j++) {
             varTOT[j] = varBasics[i];
         }

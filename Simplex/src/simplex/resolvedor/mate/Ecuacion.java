@@ -97,7 +97,7 @@ public class Ecuacion {
      */
     public void setMonomios(Monomio[] monomios) {
         this.monomios = new ArrayList<Monomio>();
-        for(Monomio i: monomios){
+        for(Monomio i : monomios){
             addMononio(i);
         }
     }

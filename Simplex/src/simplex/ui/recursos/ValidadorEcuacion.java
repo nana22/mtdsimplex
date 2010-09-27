@@ -38,59 +38,26 @@ public class ValidadorEcuacion {
         String[] cadenaNueva = string.split("<=");
         if (cadenaNueva.length == 2) {
             ecuacion.setTipoIgualdad(Ecuacion.MENOR_IGUAL_QUE);
-            if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
-                buscarResultado(cadenaNueva[0]);
-                buscarMonomios(cadenaNueva[1]);
-            } else {
-                buscarResultado(cadenaNueva[1]);
-                buscarMonomios(cadenaNueva[0]);
-            }
+        } else if ((cadenaNueva = string.split(">=")).length == 2) {
+            ecuacion.setTipoIgualdad(Ecuacion.MAYOR_IGUAL_QUE);
+        } else if ((cadenaNueva = string.split("=")).length == 2) {
+            ecuacion.setTipoIgualdad(Ecuacion.IGUAL);
+        } else if ((cadenaNueva = string.split(">")).length == 2) {
+            ecuacion.setTipoIgualdad(Ecuacion.MAYOR_QUE);
+        } else if ((cadenaNueva = string.split("<")).length == 2) {
+            ecuacion.setTipoIgualdad(Ecuacion.MENOR_QUE);
         } else {
-            cadenaNueva = string.split(">=");
-            if (cadenaNueva.length == 2) {
-                ecuacion.setTipoIgualdad(Ecuacion.MAYOR_IGUAL_QUE);
-                if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
-                    buscarResultado(cadenaNueva[0]);
-                    buscarMonomios(cadenaNueva[1]);
-                } else {
-                    buscarResultado(cadenaNueva[1]);
-                    buscarMonomios(cadenaNueva[0]);
-                }
-            } else {
-                cadenaNueva = string.split("=");
-                if (cadenaNueva.length == 2) {
-                    ecuacion.setTipoIgualdad(Ecuacion.IGUAL);
-                    if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
-                        buscarResultado(cadenaNueva[0]);
-                        buscarMonomios(cadenaNueva[1]);
-                    } else {
-                        buscarResultado(cadenaNueva[1]);
-                        buscarMonomios(cadenaNueva[0]);
-                    }
-                } else {
-                    cadenaNueva = string.split(">");
-                    if (cadenaNueva.length == 2) {
-                        ecuacion.setTipoIgualdad(Ecuacion.MAYOR_QUE);
-                        if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
-                            buscarResultado(cadenaNueva[0]);
-                            buscarMonomios(cadenaNueva[1]);
-                        } else {
-                            buscarResultado(cadenaNueva[1]);
-                            buscarMonomios(cadenaNueva[0]);
-                        }
-                    } else {
-                        ecuacion.setTipoIgualdad(Ecuacion.MENOR_QUE);
-                        if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
-                            buscarResultado(cadenaNueva[0]);
-                            buscarMonomios(cadenaNueva[1]);
-                        } else {
-                            buscarResultado(cadenaNueva[1]);
-                            buscarMonomios(cadenaNueva[0]);
-                        }
-                    }
-                }
-            }
+            throw new IllegalArgumentException("Ecuación no valida: " + string);
         }
+
+        if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
+            buscarResultado(cadenaNueva[0]);
+            buscarMonomios(cadenaNueva[1]);
+        } else {
+            buscarResultado(cadenaNueva[1]);
+            buscarMonomios(cadenaNueva[0]);
+        }
+
         return ecuacion;
     }
 
@@ -106,22 +73,22 @@ public class ValidadorEcuacion {
                 Stack<Character> stVariable = new Stack<Character>();
                 Stack<Character> stConstantes = new Stack<Character>();
 
-                for (int i = 0; i < string.length(); i++) {
-                    if ((string.charAt(i) >= 'a') && (string.charAt(i) >= 'z')) {
-                        stVariable.push(string.charAt(i));
+                for (char c : string.toCharArray()) {
+                    if (esLetra(c)) {
+                        stVariable.push(c);
                     } else {
-                        stConstantes.push(string.charAt(i));
+                        stConstantes.push(c);
                     }
                 }
 
                 String t = "";
-                int lenConstantes = stConstantes.size();
-                for (int i = 0; i < lenConstantes; i++) {
+
+                for (int i = 0; i < stConstantes.size(); i++) {
                     t += stConstantes.pop();
                 }
-                t = volter(t);
-                int a = Integer.parseInt(t);
-                ecuacion.setMonomioResultado(new Monomio(a, stVariable.pop()));
+
+                ecuacion.setMonomioResultado(new Monomio(
+                        Integer.parseInt(volter(t)), stVariable.pop()));
                 ecuacion.setResultado(0);
             } else {
                 ecuacion.setMonomioResultado(new Monomio(string.charAt(0)));
@@ -142,13 +109,13 @@ public class ValidadorEcuacion {
         } else {
             Stack<Character> stVariables = new Stack<Character>();
             Stack<Character> stCoeficientesTmp = new Stack<Character>();
-            Stack<Integer> stCoeficientes = new Stack<Integer>();
-            Stack<Integer> coeficientes = new Stack<Integer>();
+            Stack<Double> stCoeficientes = new Stack<Double>();
+            Stack<Double> coeficientes = new Stack<Double>();
             int numCoeficientes = 0, lengthString = string.length() - 1, numVariables = 0;
             String tmp = "";
 
             do {
-                if ((string.charAt(lengthString) >= 'a') && (string.charAt(lengthString) <= 'z')) {
+                if (esLetra(string.charAt(lengthString))) {
                     stVariables.push(string.charAt(lengthString));
                 } else {
                     stCoeficientesTmp.push(string.charAt(lengthString));
@@ -159,8 +126,19 @@ public class ValidadorEcuacion {
             do {
                 if ((stCoeficientesTmp.peek() == '-') || (stCoeficientesTmp.peek() == '+')) {
                     if (tmp.length() != 0) {
-                        coeficientes.push(Integer.parseInt(tmp));
-                        tmp = "";
+                        //TODO Aquí ocurre un error al convertir, pues se añade el subindice de la variable
+                        try {
+                            coeficientes.push(Double.parseDouble(tmp));
+                            tmp = "";
+                        } catch (NumberFormatException ex) {
+                            String[] stTmp = tmp.split("/");
+                            if (stTmp.length > 0) {
+                                double uno = Double.parseDouble(stTmp[0]);
+                                double dos = Double.parseDouble(stTmp[1]);
+                                double tres = uno / dos;
+                                coeficientes.push(tres);
+                            }
+                        }
                     } else if (stCoeficientesTmp.peek() == '+') {
                         stCoeficientesTmp.pop();
                     } else {
@@ -172,7 +150,20 @@ public class ValidadorEcuacion {
             } while (!stCoeficientesTmp.isEmpty());
 
             if (!tmp.isEmpty()) {
-                coeficientes.push(Integer.parseInt(tmp));
+                //TODO Aquí ocurre un error al convertir, pues se añade el subindice de la variable
+                try {
+                    coeficientes.push(Double.parseDouble(tmp));
+                    tmp = "";
+                } catch (NumberFormatException ex) {
+                    String[] stTmp = tmp.split("/");
+                    if (stTmp.length > 0) {
+                        double uno = Double.parseDouble(stTmp[0]);
+                        double dos = Double.parseDouble(stTmp[1]);
+                        double tres = uno / dos;
+
+                        coeficientes.push(tres);
+                    }
+                }
                 tmp = "";
             }
 
@@ -193,16 +184,20 @@ public class ValidadorEcuacion {
                 monomios = new Monomio[numVariables];
                 for (int i = 0; i < numVariables; i++) {
                     if (!stCoeficientes.isEmpty()) {
-                        int cons = stCoeficientes.pop();
+                        double cons = stCoeficientes.pop();
                         char ch = stVariables.pop();
                         tmp = cons + "" + ch;
                         if (string.indexOf(tmp) != -1) {
                             monomios[i] = new Monomio(cons, ch);
+                        } else if (string.indexOf(tmp = ((int) cons) + "" + ch) != -1) {
+                            monomios[i] = new Monomio(cons, ch);
+                        } else if (string.indexOf(tmp = decimalAFraccion(cons) + "" + ch) != -1) {
+                            monomios[i] = new Monomio(cons, ch);
                         } else {
                             monomios[i] = new Monomio(ch);
                             stCoeficientes.push(cons);
-                            tmp = "";
                         }
+                        tmp = "";
                     } else {
                         monomios[i] = new Monomio(stVariables.pop());
                     }
@@ -227,5 +222,21 @@ public class ValidadorEcuacion {
             tamanyoCadena--;
         } while (tamanyoCadena > 0);
         return nuevaCadena;
+    }
+
+    private boolean esLetra(char c) {
+        return ((c >= 'a') && (c <= 'z'));
+    }
+
+    private String decimalAFraccion(double aDouble) {
+        double tmp;
+        int b = 0, a;
+        do {
+            b++;
+            tmp = b * aDouble;
+            a = (int) tmp;
+            tmp = tmp - a;
+        } while (tmp > 0);
+        return a + "/" + b;
     }
 }
