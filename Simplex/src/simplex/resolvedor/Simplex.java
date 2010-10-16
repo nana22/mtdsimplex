@@ -1,5 +1,5 @@
 /*
- *  @(#)Main.java  12/10/2010
+ *  @(#)Simplex.java  08/10/2010
  *  @charset "UTF-8";
  * 
  *  Copyright (c) 2010 Freddy. All Rights Reserved.
@@ -35,35 +35,15 @@
  *  nuclear facility.
  */
 
-package simplex;
+package simplex.resolvedor;
 
-import java.awt.EventQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import simplex.ui.VentanaPrincipal;
+import simplex.resolvedor.mate.Ecuacion;
 
 /**
  *
  * @author Freddy
  */
-public class Main {
-    public static void main(String[] args) {
-        if (System.getProperty("os.name").contains("Windows")) {
-            try {
-                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (UnsupportedLookAndFeelException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
-        EventQueue.invokeLater(new Thread(new VentanaPrincipal(), "Ventana principal"));
-    }
+public interface Simplex {
+    public double[] maximizar(Ecuacion funcionObjetivo, Ecuacion[] restricciones);
+    public double[] minimizar(Ecuacion funcionObjetivo, Ecuacion[] restricciones);
 }

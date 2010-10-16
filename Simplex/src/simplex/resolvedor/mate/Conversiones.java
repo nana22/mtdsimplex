@@ -24,20 +24,29 @@ public class Conversiones {
     private void tratarFO(Ecuacion FO) {
         Monomio monomiosFO[] = FO.getMonomios();
         var = new String[monomiosFO.length];
+
         for (int i = 0; i < monomiosFO.length; i++) {
-            var[i] = Character.toString(monomiosFO[i].getVariable());
+            var[i] = "" + monomiosFO[i].getVariable()
+                    + monomiosFO[i].getSubindice();
+            monomiosFO[i].setCoeciente(-1 * monomiosFO[i].getCoeficiente());
         }
+        
         Monomio z = FO.getMonomioResultado();
-        z.setCoeciente(-1);
+        z.setCoeciente(1);
         FO.setMonomioResultado(null);
         FO.setResultado(0);
         FO.addMononio(z);
+
     }
 
+    //TODO Freddy hacer que todas tengan la misma cantidad de variables
     private void tratarRestric(Ecuacion[] restricciones) {
         int tama = restricciones.length;
         tempVB = new String[0];
-        char holgura = 'c';
+        char holgura = 'h';
+        char artificial = 'a';
+        int countHolgura = 1;
+        int countArtificial = 1;
         for (int i = 0; i < tama; i++) {
             //Checando restricciones
             int igualdad = restricciones[i].getTipoIgualdad();
@@ -47,25 +56,21 @@ public class Conversiones {
                     break;
                 case Ecuacion.MAYOR_IGUAL_QUE:
                     restricciones[i].setTipoIgualdad(Ecuacion.IGUAL);
-                    restricciones[i].addMononio(new Monomio(-1, holgura));
+                    restricciones[i].addMononio(new Monomio(-1, holgura, countHolgura));
                     varBasic = new String[tempVB.length + 1];
-                    for (int j = 0; j < tempVB.length; j++) {
-                        varBasic[j] = tempVB[j];
-                    }
-                    varBasic[tempVB.length] = Character.toString(holgura);
+                    System.arraycopy(tempVB, 0, varBasic, 0, tempVB.length);
+                    varBasic[tempVB.length] = "" + holgura + countHolgura;
                     tempVB = varBasic;
-                    holgura++;
+                    countHolgura++;
                     break;
                 case Ecuacion.MENOR_IGUAL_QUE:
                     restricciones[i].setTipoIgualdad(Ecuacion.IGUAL);
-                    restricciones[i].addMononio(new Monomio(1, holgura));
+                    restricciones[i].addMononio(new Monomio(1, holgura, countHolgura));
                     varBasic = new String[tempVB.length + 1];
-                    for (int j = 0; j < tempVB.length; j++) {
-                        varBasic[j] = tempVB[j];
-                    }
-                    varBasic[tempVB.length] = Character.toString(holgura);
+                    System.arraycopy(tempVB, 0, varBasic, 0, tempVB.length);
+                    varBasic[tempVB.length] = "" + holgura + countHolgura;
                     tempVB = varBasic;
-                    holgura++;
+                    countHolgura++;
                     break;
                 default:
                     break;//TODO No hay variables de error para cachar

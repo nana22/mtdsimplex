@@ -1,232 +1,46 @@
 /* File: Simplex.java          */
 /* Copyright (C) 1997 K. Ikeda */
 
+import simplex.resolvedor.mate.RationalNumber;
 import java.util.*;
 import java.awt.*;
 import java.applet.*;
-
-class RN {
-
-    int n;
-    int d;
-
-    RN() {
-        n = 0;
-        d = 1;
-    }
-
-    RN(int n) {
-        this.n = n;
-        this.d = 1;
-    }
-
-    RN(int n, int d) {
-        this.n = n;
-        this.d = d;
-        reduce();
-    }
-
-    RN(String s) {
-        int k = s.indexOf('/');
-        if (k > 0) {
-            d = Integer.valueOf(s.substring(k + 1)).intValue();
-            s = s.substring(0, k);
-        } else {
-            d = 1;
-        }
-        n = Integer.valueOf(s).intValue();
-        reduce();
-    }
-
-    int euclid(int a, int b) {
-        int q, r;
-
-        if (a < 0) {
-            a = -a;
-        }
-        if (b < 0) {
-            b = -b;
-        }
-        if (b == 0) {
-            if (a == 0) {
-                return -1;
-            } else {
-                return a;
-            }
-        }
-        for (;;) {
-            q = a / b;
-            r = a % b;
-            if (r == 0) {
-                break;
-            }
-            a = b;
-            b = r;
-        }
-        return b;
-    }
-
-    boolean reduce() {
-        int c;
-
-        if ((c = euclid(n, d)) < 0) {
-            return false;
-        }
-        if (d < 0) {
-            c *= -1;
-        }
-        n /= c;
-        d /= c;
-        return true;
-    }
-
-    void set(int n) {
-        this.n = n;
-        this.d = 1;
-    }
-
-    void set(int n, int d) {
-        this.n = n;
-        this.d = d;
-    }
-
-    void set(RN a) {
-        n = a.n;
-        d = a.d;
-    }
-
-    void mul(RN a) {
-        a.reduce();
-        RN aa = new RN(n, a.d);
-        RN bb = new RN(a.n, d);
-        aa.reduce();
-        bb.reduce();
-        n = aa.n * bb.n;
-        d = aa.d * bb.d;
-    }
-
-    void div(RN a) {
-        a.reduce();
-        RN aa = new RN(n, a.n);
-        RN bb = new RN(a.d, d);
-        aa.reduce();
-        bb.reduce();
-        n = aa.n * bb.n;
-        d = aa.d * bb.d;
-    }
-
-    void inv() {
-        int x;
-        x = n;
-        n = d;
-        d = x;
-        reduce();
-    }
-
-    boolean plus(RN a) {
-        int c, x, y;
-
-        c = euclid(d, a.d);
-        if (c < 0) {
-            return false;
-        }
-        if ((x = a.d / c * n + d / c * a.n) == 0) {
-            x = 0;
-            y = 1;
-        } else {
-            y = d / c * a.d;
-        }
-        n = x;
-        d = y;
-        this.reduce();
-        return true;
-    }
-
-    boolean minus(RN a) {
-        int c, x, y;
-
-        c = euclid(d, a.d);
-        if (c < 0) {
-            return false;
-        }
-        if ((x = a.d / c * n - d / c * a.n) == 0) {
-            x = 0;
-            y = 1;
-        } else {
-            y = d / c * a.d;
-        }
-        n = x;
-        d = y;
-        this.reduce();
-        return true;
-    }
-
-    boolean gt(RN a) {
-        RN c = new RN(n, d);
-        c.minus(a);
-        return c.n > 0;
-    }
-
-    boolean ge(RN a) {
-        RN c = new RN(n, d);
-        c.minus(a);
-        return c.n >= 0;
-    }
-
-    boolean eq(RN a) {
-        RN c = new RN(n, d);
-        c.minus(a);
-        return c.n == 0;
-    }
-
-    boolean le(RN a) {
-        RN c = new RN(n, d);
-        c.minus(a);
-        return c.n <= 0;
-    }
-
-    boolean lt(RN a) {
-        RN c = new RN(n, d);
-        c.minus(a);
-        return c.n < 0;
-    }
-}
 
 public class Simplex extends Applet {
 
     int m, n, r, s;
     int step, cycle;
-    RN[][] a = new RN[10][20];
+    RationalNumber[][] a = new RationalNumber[10][20];
     int[] base = new int[10];
     String message = "";
 
-    void Print(Graphics g, FontMetrics fm, int x, int y, String s) {
+    void print(Graphics g, FontMetrics fm, int x, int y, String s) {
         int w = fm.stringWidth(s);
         int h = fm.getHeight();
         g.drawString(s, x - w / 2, y - h / 2 + fm.getAscent());
     }
 
-    void Print(Graphics g, FontMetrics fm, int x, int y, int n) {
-        Print(g, fm, x, y, "" + n);
+    void print(Graphics g, FontMetrics fm, int x, int y, int n) {
+        print(g, fm, x, y, "" + n);
     }
 
-    void Print(Graphics g, FontMetrics fm, int x, int y, RN rn) {
+    void print(Graphics g, FontMetrics fm, int x, int y, RationalNumber rn) {
         int wn, wd, h = fm.getHeight();
         int sign;
 
-        if (rn.n < 0) {
+        if (rn.numerator < 0) {
             sign = -1;
         } else {
             sign = 1;
         }
-        if (rn.d == 1) {
-            Print(g, fm, x, y, sign * rn.n);
-            wd = fm.stringWidth("" + (sign * rn.n));
+        if (rn.denominator == 1) {
+            print(g, fm, x, y, sign * rn.numerator);
+            wd = fm.stringWidth("" + (sign * rn.numerator));
         } else {
-            Print(g, fm, x, y - h / 2 - 2, sign * rn.n);
-            Print(g, fm, x, y + h / 2 + 2, rn.d);
-            wn = fm.stringWidth("" + sign * rn.n);
-            wd = fm.stringWidth("" + rn.d);
+            print(g, fm, x, y - h / 2 - 2, sign * rn.numerator);
+            print(g, fm, x, y + h / 2 + 2, rn.denominator);
+            wn = fm.stringWidth("" + sign * rn.numerator);
+            wd = fm.stringWidth("" + rn.denominator);
             if (wn > wd) {
                 wd = wn;
             }
@@ -239,30 +53,37 @@ public class Simplex extends Applet {
         }
     }
 
-    void input_data() {
-        m = Integer.parseInt(getParameter("m"));
-        n = Integer.parseInt(getParameter("n"));
-        String sdat = getParameter("data");
+    void inputData() {
+//        m = Integer.parseInt(getParameter("m"));
+//        numerator = Integer.parseInt(getParameter("numerator"));
+//        String sdat = getParameter("data");
+//        m = 2;
+//        numerator = 2;
+//        String sdat = "5/2,5,150,5,2,120,-3/2,-1,0";
+//        StringTokenizer st = new StringTokenizer(sdat, ",");
+        m = 3;
+        n = 2;
+        String sdat = "1,0,4,0,2,12,3,2,18,-3,-5,0";
         StringTokenizer st = new StringTokenizer(sdat, ",");
         for (int i = 0; i <= m; i++) {
             for (int j = 0; j < n; j++) {
-                a[i][j] = new RN(st.nextToken());
+                a[i][j] = new RationalNumber(st.nextToken());
             }
             base[i] = n + i;
             for (int j = n; j < n + m; j++) {
-                RN rn = new RN(0);
+                RationalNumber rn = new RationalNumber(0);
                 if (j == i + n) {
                     rn.set(1);
                 }
                 a[i][j] = rn;
             }
-            a[i][n + m] = new RN(st.nextToken());
+            a[i][n + m] = new RationalNumber(st.nextToken());
         }
         n += m;
     }
 
     boolean step1() {		/* search pivot s of (r, s) */
-        RN c = new RN();
+        RationalNumber c = new RationalNumber();
 
         s = 0;
         r = -1;
@@ -273,7 +94,7 @@ public class Simplex extends Applet {
                 c.set(a[m][s]);
             }
         }
-        if (c.n >= 0) {
+        if (c.numerator >= 0) {
             s = -1;
             return true;
         } else {
@@ -282,11 +103,11 @@ public class Simplex extends Applet {
     }
 
     boolean step2() {		/* search pivot r of (r, s) */
-        RN t = new RN();
-        RN c = new RN();
+        RationalNumber t = new RationalNumber();
+        RationalNumber c = new RationalNumber();
 
         for (int i = 0; i < m; i++) {
-            if (a[i][s].n <= 0) {
+            if (a[i][s].numerator <= 0) {
                 continue;
             }
             t.set(a[i][n]);
@@ -304,7 +125,7 @@ public class Simplex extends Applet {
     }
 
     void step3() {		/* pivot operation 1 */
-        RN c = new RN();
+        RationalNumber c = new RationalNumber();
 
         base[r] = s;
         c.set(a[r][s]);
@@ -314,8 +135,8 @@ public class Simplex extends Applet {
     }
 
     void step4() {
-        RN c = new RN();
-        RN t = new RN();
+        RationalNumber c = new RationalNumber();
+        RationalNumber t = new RationalNumber();
 
         for (int i = 0; i <= m; i++) {
             if (i == r) {
@@ -333,20 +154,20 @@ public class Simplex extends Applet {
 
     @Override
     public void init() {
-        input_data();
+        inputData();
         step = cycle = 0;
         s = r = -1;
         message = "click here.";
         setBackground(Color.white);
     }
 
-    void select_color(Graphics g, int i, int j) {
+    void selectColor(Graphics g, int i, int j) {
         Color c;
 
         if ((step == 1 && i == m && j == s) || (step != 1 && i == r && j == s)) {
             c = Color.red;
-        } else if ((step == 1 && i == m && j < n && a[i][j].n < 0) ||
-                (step == 2 && (j == s || j == n) && i < m && a[i][s].n > 0) ||
+        } else if ((step == 1 && i == m && j < n && a[i][j].numerator < 0) ||
+                (step == 2 && (j == s || j == n) && i < m && a[i][s].numerator > 0) ||
                 (step == 3 && (i == r || j == s))) {
             c = Color.blue;
         } else {
@@ -369,13 +190,13 @@ public class Simplex extends Applet {
         g.setColor(getBackground());
         g.fillRect(x - w / 2, y - h / 2, (n + 2) * w + 1, h + 1);
         g.setColor(Color.black);
-        Print(g, fm, x, y, "basis");
+        print(g, fm, x, y, "basis");
         for (int j = 0; j < n; j++) {
             x += w;
-            Print(g, fm, x, y, "x" + (j + 1));
+            print(g, fm, x, y, "x" + (j + 1));
         }
         x += w;
-        Print(g, fm, x, y, "const");
+        print(g, fm, x, y, "const");
         for (int i = 0; i <= m; i++) {
             x = 25 + w / 2;
             y += h;
@@ -383,14 +204,14 @@ public class Simplex extends Applet {
             g.fillRect(x - w / 2, y - h / 2, (n + 2) * w + 1, h + 1);
             g.setColor(Color.black);
             if (i == m) {
-                Print(g, fm, x, y, "-z");
+                print(g, fm, x, y, "-z");
             } else {
-                Print(g, fm, x, y, "x" + (base[i] + 1));
+                print(g, fm, x, y, "x" + (base[i] + 1));
             }
             for (int j = 0; j <= n; j++) {
-                select_color(g, i, j);
+                selectColor(g, i, j);
                 x += w;
-                Print(g, fm, x, y, a[i][j]);
+                print(g, fm, x, y, a[i][j]);
             }
         }
         g.setColor(getBackground());
