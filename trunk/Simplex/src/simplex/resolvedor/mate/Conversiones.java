@@ -11,14 +11,16 @@ public class Conversiones {
     private String varBasic[];
     private String tempVB[];
     private String var[];
+    private int numVariables;
 
-    public DefaultTableModel conversiones(Ecuacion FO, Ecuacion[] rest) {
-        tratarFO(FO);
+    public DefaultTableModel conversiones(Ecuacion fo, Ecuacion[] rest) {
+        numVariables = fo.getMonomios().length;
+        tratarFO(fo);
         tratarRestric(rest);
         SimplexTable table = new SimplexTable();
         table.setVarBasics(varBasic);
         table.setVarNs(var);
-        return table.simplexTable(FO, rest);
+        return table.simplexTable(fo, rest);
     }
 
     private void tratarFO(Ecuacion FO) {
@@ -41,22 +43,33 @@ public class Conversiones {
 
     //TODO Freddy hacer que todas tengan la misma cantidad de variables
     private void tratarRestric(Ecuacion[] restricciones) {
-        int tama = restricciones.length;
-        tempVB = new String[0];
+        int tama = restricciones.length, countHolgura = 1;
         char holgura = 'h';
-        char artificial = 'a';
-        int countHolgura = 1;
-        int countArtificial = 1;
+
+        tempVB = new String[0];
+
+        for(int i = 0; i < restricciones.length; i++){
+            for (int j = 1; j <= tama; j++) {
+                restricciones[i].addMonomio(new Monomio(0, holgura, j, 1));
+            }
+        }
+
         for (int i = 0; i < tama; i++) {
             //Checando restricciones
             int igualdad = restricciones[i].getTipoIgualdad();
+            
             switch (igualdad) {
                 case Ecuacion.IGUAL:
                     //Se Conserva igual
                     break;
                 case Ecuacion.MAYOR_IGUAL_QUE:
                     restricciones[i].setTipoIgualdad(Ecuacion.IGUAL);
-                    restricciones[i].addMonomio(new Monomio(-1, holgura, countHolgura));
+
+                    if((i + 1) == countHolgura){
+                        restricciones[i].getMonomio(i + numVariables).setCoeficiente(-1);
+                        //restricciones[i].addMononio(new Monomio(-1, holgura, countHolgura));
+                    }
+                    
                     varBasic = new String[tempVB.length + 1];
                     System.arraycopy(tempVB, 0, varBasic, 0, tempVB.length);
                     varBasic[tempVB.length] = "" + holgura + countHolgura;
@@ -65,7 +78,12 @@ public class Conversiones {
                     break;
                 case Ecuacion.MENOR_IGUAL_QUE:
                     restricciones[i].setTipoIgualdad(Ecuacion.IGUAL);
-                    restricciones[i].addMonomio(new Monomio(1, holgura, countHolgura));
+
+                    if((i + 1) == countHolgura){
+                        restricciones[i].getMonomio(i + numVariables).setCoeficiente(1);
+                        //restricciones[i].addMononio(new Monomio(1, holgura, countHolgura));
+                    }
+
                     varBasic = new String[tempVB.length + 1];
                     System.arraycopy(tempVB, 0, varBasic, 0, tempVB.length);
                     varBasic[tempVB.length] = "" + holgura + countHolgura;
