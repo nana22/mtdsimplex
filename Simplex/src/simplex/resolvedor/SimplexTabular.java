@@ -21,7 +21,8 @@ import simplex.resolvedor.mate.RationalNumber;
 public class SimplexTabular implements Simplex {
 
     private int step, cycle;
-    private int m, n, r, s;
+    private int m, n, r, s;//n define numero de variables basicas
+    //m define cantidad de restricciones
     private RationalNumber[][] a = new RationalNumber[10][20];
     private List f = new ArrayList<ArrayList<RationalNumber>>();
     int[] base = new int[10];

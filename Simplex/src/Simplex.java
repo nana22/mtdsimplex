@@ -63,7 +63,10 @@ public class Simplex extends Applet {
 //        StringTokenizer st = new StringTokenizer(sdat, ",");
         m = 3;
         n = 2;
-        String sdat = "1,0,4,0,2,12,3,2,18,-3,-5,0";
+        String sdat = "1,0,4,"
+                + "0,2,12,"
+                + "3,2,18,"
+                + "-3,-5,0";
         StringTokenizer st = new StringTokenizer(sdat, ",");
         for (int i = 0; i <= m; i++) {
             for (int j = 0; j < n; j++) {
