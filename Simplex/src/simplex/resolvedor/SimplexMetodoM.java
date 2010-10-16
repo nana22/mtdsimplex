@@ -58,17 +58,17 @@ public class SimplexMetodoM implements Simplex{
         for (int i = 0; i < restricciones.length; i++) {
             switch(restricciones[i].getTipoIgualdad()){
                 case Ecuacion.IGUAL:
-                    restricciones[i].addMononio(new Monomio(VARIABLE_ARTIFICIAL, countVariableArtificial));
+                    restricciones[i].addMonomio(new Monomio(VARIABLE_ARTIFICIAL, countVariableArtificial));
                     countVariableArtificial++;
                     break;
                 case Ecuacion.MAYOR_IGUAL_QUE:
-                    restricciones[i].addMononio(new Monomio(-1,VARIABLE_HOLGURA, countVariableHolgura));
-                    restricciones[i].addMononio(new Monomio(VARIABLE_ARTIFICIAL,countVariableArtificial));
+                    restricciones[i].addMonomio(new Monomio(-1,VARIABLE_HOLGURA, countVariableHolgura));
+                    restricciones[i].addMonomio(new Monomio(VARIABLE_ARTIFICIAL,countVariableArtificial));
                     countVariableArtificial++;
                     countVariableHolgura++;
                     break;
                 case Ecuacion.MENOR_IGUAL_QUE:
-                    restricciones[i].addMononio(new Monomio(VARIABLE_HOLGURA, countVariableHolgura));
+                    restricciones[i].addMonomio(new Monomio(VARIABLE_HOLGURA, countVariableHolgura));
                     countVariableHolgura++;
                     break;
             }
@@ -78,11 +78,11 @@ public class SimplexMetodoM implements Simplex{
     private void agregarM(Ecuacion funcionObjetivo, boolean esMaximizar){
         if(esMaximizar){
             for(int i = 1; i <= countVariableArtificial; i++){
-                funcionObjetivo.addMononio(new Monomio(-M, VARIABLE_ARTIFICIAL, i));
+                funcionObjetivo.addMonomio(new Monomio(-M, VARIABLE_ARTIFICIAL, i));
             }
         } else {
             for(int i = 1; i <= countVariableArtificial; i++){
-                funcionObjetivo.addMononio(new Monomio(M, VARIABLE_ARTIFICIAL, i));
+                funcionObjetivo.addMonomio(new Monomio(M, VARIABLE_ARTIFICIAL, i));
             }
         }
     }
@@ -92,7 +92,7 @@ public class SimplexMetodoM implements Simplex{
         } else {
             for (int i = 0; i < funcionObjetivo.getMonomios().length; i++){
                 double nuevoCoeficiente = funcionObjetivo.getMonomio(i).getCoeficiente() * -1;
-                funcionObjetivo.getMonomio(i).setCoeciente(nuevoCoeficiente);
+                funcionObjetivo.getMonomio(i).setCoeficiente(nuevoCoeficiente);
             }
             List lista = new ArrayList();
             for (int i = 0; i  < restricciones.length; i++){

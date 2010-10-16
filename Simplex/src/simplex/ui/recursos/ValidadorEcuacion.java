@@ -101,10 +101,10 @@ public class ValidadorEcuacion {
                             if (s.contains("/")) {
                                 Fraccion f = new Fraccion(s);
                                 double d = (double) f.getNumerador() / (double) f.getDenominador();
-                                monomio.setCoeciente(d);
+                                monomio.setCoeficiente(d);
                             } else {
                                 double value = Double.valueOf(s);
-                                monomio.setCoeciente(value);
+                                monomio.setCoeficiente(value);
                             }
                             c = (Character) cola.poll();
 
@@ -169,10 +169,10 @@ public class ValidadorEcuacion {
                     if (s.contains("/")) {
                         Fraccion f = new Fraccion(s);
                         double d = (double) f.getNumerador() / (double) f.getDenominador();
-                        monomio.setCoeciente(d);
+                        monomio.setCoeficiente(d);
                     } else {
                         double value = Double.valueOf(s);
-                        monomio.setCoeciente(value);
+                        monomio.setCoeficiente(value);
                     }
                     c = (Character) cola.poll();
 
@@ -184,7 +184,7 @@ public class ValidadorEcuacion {
                         cola.addFirst(c);
                     }
 
-                    ecuacion.addMononio(monomio);
+                    ecuacion.addMonomio(monomio);
                 } else {
                     Monomio monomio = new Monomio(c);
                     c = (Character) cola.poll();
@@ -197,7 +197,7 @@ public class ValidadorEcuacion {
                         cola.addFirst(c);
                     }
 
-                    ecuacion.addMononio(monomio);
+                    ecuacion.addMonomio(monomio);
                 }
             }
         } while (!cola.isEmpty());

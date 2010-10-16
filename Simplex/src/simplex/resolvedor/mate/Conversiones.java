@@ -28,14 +28,14 @@ public class Conversiones {
         for (int i = 0; i < monomiosFO.length; i++) {
             var[i] = "" + monomiosFO[i].getVariable()
                     + monomiosFO[i].getSubindice();
-            monomiosFO[i].setCoeciente(-1 * monomiosFO[i].getCoeficiente());
+            monomiosFO[i].setCoeficiente(-1 * monomiosFO[i].getCoeficiente());
         }
         
         Monomio z = FO.getMonomioResultado();
-        z.setCoeciente(1);
+        z.setCoeficiente(1);
         FO.setMonomioResultado(null);
         FO.setResultado(0);
-        FO.addMononio(z);
+        FO.addMonomio(z);
 
     }
 
@@ -56,7 +56,7 @@ public class Conversiones {
                     break;
                 case Ecuacion.MAYOR_IGUAL_QUE:
                     restricciones[i].setTipoIgualdad(Ecuacion.IGUAL);
-                    restricciones[i].addMononio(new Monomio(-1, holgura, countHolgura));
+                    restricciones[i].addMonomio(new Monomio(-1, holgura, countHolgura));
                     varBasic = new String[tempVB.length + 1];
                     System.arraycopy(tempVB, 0, varBasic, 0, tempVB.length);
                     varBasic[tempVB.length] = "" + holgura + countHolgura;
@@ -65,7 +65,7 @@ public class Conversiones {
                     break;
                 case Ecuacion.MENOR_IGUAL_QUE:
                     restricciones[i].setTipoIgualdad(Ecuacion.IGUAL);
-                    restricciones[i].addMononio(new Monomio(1, holgura, countHolgura));
+                    restricciones[i].addMonomio(new Monomio(1, holgura, countHolgura));
                     varBasic = new String[tempVB.length + 1];
                     System.arraycopy(tempVB, 0, varBasic, 0, tempVB.length);
                     varBasic[tempVB.length] = "" + holgura + countHolgura;

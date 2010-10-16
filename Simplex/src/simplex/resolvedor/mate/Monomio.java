@@ -26,7 +26,7 @@ public class Monomio implements Comparable<Monomio>, Serializable {
     private int subindice;
 
     public Monomio(double coeficiente, char variable, int subindice, double exponente) {
-        setCoeciente(coeficiente);
+        setCoeficiente(coeficiente);
         setVariable(variable);
         setSubindice(subindice);
         setExponente(exponente);
@@ -86,7 +86,7 @@ public class Monomio implements Comparable<Monomio>, Serializable {
     /**
      * @param constanate the constante to set
      */
-    public void setCoeciente(double constanate) {
+    public void setCoeficiente(double constanate) {
         this.coeficiente = constanate;
     }
 

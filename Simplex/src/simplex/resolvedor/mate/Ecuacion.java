@@ -92,7 +92,7 @@ public class Ecuacion {
         this.monomios = new ArrayList<Monomio>();
         if (monomios != null) {
             for (Monomio i : monomios) {
-                addMononio(i);
+                addMonomio(i);
             }
         }
     }
@@ -116,7 +116,7 @@ public class Ecuacion {
      * 
      * @param monomio {@code Monomio}
      */
-    public void addMononio(Monomio monomio) {
+    public void addMonomio(Monomio monomio) {
         monomios.add(monomio);
     }
 
