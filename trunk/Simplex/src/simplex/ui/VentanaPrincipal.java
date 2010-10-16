@@ -7,6 +7,8 @@
 package simplex.ui;
 
 import javax.swing.JOptionPane;
+import simplex.resolvedor.Simplex;
+import simplex.resolvedor.SimplexTabular;
 import simplex.resolvedor.mate.Conversiones;
 import simplex.resolvedor.mate.Ecuacion;
 import simplex.ui.recursos.ValidadorEcuacion;
@@ -16,11 +18,37 @@ import simplex.ui.recursos.ValidadorEcuacion;
  * @author Mari-ppita
  * @version 1.9.1, 10/10/09
  */
-public class VentanaPrincipal extends javax.swing.JFrame {
-
+public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
+    private static final long serialVersionUID = 8044275911936374960L;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.neocs.beans.panel.BackgroundJPanel backgroundJPanel1;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private org.neocs.beans.panel.FondoJPanel fondoJPanel1;
+    private org.neocs.beans.panel.FondoJPanel fondoJPanel2;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelTitulo;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
+    // End of variables declaration//GEN-END:variables
+    
     /** Creates new form VentanaPrincipal */
     public VentanaPrincipal() {
         initComponents();
+        rootPane.setDefaultButton(jButton1);
     }
 
     @SuppressWarnings("unchecked")
@@ -29,10 +57,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
-        backgroundJPanel1 = new beans.BackgroundJPanel();
-        fondoJPanel1 = new beans.FondoJPanel();
+        backgroundJPanel1 = new org.neocs.beans.panel.BackgroundJPanel();
+        fondoJPanel1 = new org.neocs.beans.panel.FondoJPanel();
         jLabelTitulo = new javax.swing.JLabel();
-        fondoJPanel2 = new beans.FondoJPanel();
+        fondoJPanel2 = new org.neocs.beans.panel.FondoJPanel();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -43,6 +71,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -61,7 +90,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTitulo.setText("MÉTODO SIMPLEX");
 
-        jLabel2.setText("Función Objetivo");
+        jLabel2.setText("Función objetivo");
 
         jLabel3.setText("Restricciones");
 
@@ -71,7 +100,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setSelected(true);
-        jRadioButton1.setText("Metodo Tabular");
+        jRadioButton1.setText("Metodo tabular");
         jRadioButton1.setOpaque(false);
 
         buttonGroup1.add(jRadioButton2);
@@ -95,6 +124,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout fondoJPanel2Layout = new javax.swing.GroupLayout(fondoJPanel2);
         fondoJPanel2.setLayout(fondoJPanel2Layout);
         fondoJPanel2Layout.setHorizontalGroup(
@@ -110,9 +146,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addGroup(fondoJPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(fondoJPanel2Layout.createSequentialGroup()
                                 .addComponent(jRadioButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(jButton1)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(fondoJPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(fondoJPanel2Layout.createSequentialGroup()
+                                        .addGap(4, 4, 4)
+                                        .addComponent(jButton1))
+                                    .addGroup(fondoJPanel2Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton2))))
                             .addComponent(jRadioButton3)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoJPanel2Layout.createSequentialGroup()
                         .addContainerGap()
@@ -140,22 +180,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(fondoJPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(fondoJPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, fondoJPanel2Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addGroup(fondoJPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(fondoJPanel2Layout.createSequentialGroup()
                                 .addComponent(jRadioButton3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButton4))
+                                .addGroup(fondoJPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jRadioButton4)
+                                    .addComponent(jButton2)))
                             .addGroup(fondoJPanel2Layout.createSequentialGroup()
                                 .addComponent(jRadioButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButton2)))
-                        .addGap(24, 24, Short.MAX_VALUE))
+                                .addComponent(jRadioButton2))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, fondoJPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addContainerGap())))
+                        .addComponent(jButton1)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -163,9 +204,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Variable Básica", "No. de Ecuación", "X1", "X2", "X3", "B"
+                "Variable básica", "No. de Ecuación", "x1", "x2", "x3", "b"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout fondoJPanel1Layout = new javax.swing.GroupLayout(fondoJPanel1);
@@ -193,7 +242,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(fondoJPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelTitulo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -250,7 +299,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGap(0, 0, 0)))
         );
 
-        pack();
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((screenSize.width-824)/2, (screenSize.height-508)/2, 824, 508);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -267,6 +317,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
 	    
             changeTable(con.conversiones(fo, rest));
+
+            Simplex simplexTabular = new SimplexTabular();
+
+            simplexTabular.maximizar(fo, rest);
         } else {
             JOptionPane.showMessageDialog(this, "Debe ingresar al menos una restricción y la función objetivo", "Faltan elementos restrición o función objetivo", JOptionPane.ERROR_MESSAGE);
         }
@@ -276,31 +330,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     private void changeTable(javax.swing.table.DefaultTableModel model) {
         jTable1.setModel(model);
     }
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private beans.BackgroundJPanel backgroundJPanel1;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.ButtonGroup buttonGroup2;
-    private beans.FondoJPanel fondoJPanel1;
-    private beans.FondoJPanel fondoJPanel2;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabelTitulo;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        setVisible(true);
+    }
 }

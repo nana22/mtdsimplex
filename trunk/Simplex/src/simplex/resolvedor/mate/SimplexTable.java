@@ -46,8 +46,8 @@ public class SimplexTable {
         int vars = var.length + varBasic.length;
         int numCol = vars + 4;
         colNames = new String[numCol];
-        colNames[0] = "Variables Basicas";
-        colNames[1] = "Numero Ecuacion";
+        colNames[0] = "Variables básicas";
+        colNames[1] = "Numero ecuacion";
         colNames[colNames.length - 2] = "b";
         colNames[colNames.length - 1] = "div";
         for (int i = 2, j = 0; i < colNames.length - 2; i++, j++) {
@@ -57,34 +57,39 @@ public class SimplexTable {
 
     private void setRowData(Ecuacion FO, Ecuacion[] restric) {
         String colVarsB[] = new String[varBasics.length + 1];
-        colVarsB[0] = "Z";
+        colVarsB[0] = "z";
         for (int i = 1; i < colVarsB.length; i++) {
             colVarsB[i] = varBasics[i - 1];
         }
+        
         Ecuacion nuevaEc[] = new Ecuacion[restric.length + 1];
         nuevaEc[0] = FO;
+
         for (int ecs = 1; ecs < restric.length + 1; ecs++) {
             nuevaEc[ecs] = restric[ecs - 1];
         }
         for (int llen = 0; llen < nuevaEc.length; llen++) {
             String RowFO[];
             RowFO = new String[colNames.length];
+
             try {
                 RowFO[0] = colVarsB[llen];
             } catch (Exception error) {
             }
+
             RowFO[1] = String.valueOf(llen);
             RowFO[colNames.length - 2] = String.valueOf(nuevaEc[llen].getResultado());
             Monomio temp[] = nuevaEc[llen].getMonomios();
+
             for (int i = 2; i < colNames.length - 2; i++) {
                 for (int j = 0; j < temp.length; j++) {
-                    String caract = Character.toString(temp[j].getVariable());
+                    String caract = "" + temp[j].getVariable() + temp[j].getSubindice();
                     if (caract.equalsIgnoreCase(colNames[i])) {
                         RowFO[i] = String.valueOf(temp[j].getCoeficiente());
                     }
                 }
             }
-            //Llenado de valores Null con 0
+            //Llenado de valores null con 0
             for (int i = 0; i < RowFO.length; i++) {
                 if (RowFO[i] == null) {
                     RowFO[i] = "0";

@@ -64,6 +64,14 @@ public class Monomio implements Comparable<Monomio>, Serializable {
      *
      * @param variable
      */
+    public Monomio(char variable, int subindice) {
+        this(1, variable, subindice, 1);
+    }
+
+    /**
+     *
+     * @param variable
+     */
     public Monomio(char variable) {
         this(1, variable);
     }

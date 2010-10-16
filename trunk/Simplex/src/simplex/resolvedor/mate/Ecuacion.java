@@ -3,7 +3,6 @@
  * @charset "utf-8";
  * Copyright (c) pendiente.
  */
-
 package simplex.resolvedor.mate;
 
 import java.util.ArrayList;
@@ -19,30 +18,29 @@ import java.util.logging.Logger;
  * @author Neo Cs || [El Ángel Blanco]
  * @version 1.7.1, 10/10/09
  */
-
 public class Ecuacion {
 
-   public static final int IGUAL = 0;
-   public static final int MENOR_QUE = 1;
-   public static final int MAYOR_QUE = 2;
-   public static final int MAYOR_IGUAL_QUE = 3;
-   public static final int MENOR_IGUAL_QUE = 4;
-   private int tipoIgualdad;
-   private List <Monomio> monomios;  
-   private Monomio monomioResultado;
-   private int resultado;
+    public static final int IGUAL = 0;
+    public static final int MENOR_QUE = 1;
+    public static final int MAYOR_QUE = 2;
+    public static final int MAYOR_IGUAL_QUE = 3;
+    public static final int MENOR_IGUAL_QUE = 4;
+    private int tipoIgualdad;
+    private List<Monomio> monomios;
+    private Monomio monomioResultado;
+    private int resultado;
 
-   /**
-    *
-    * @param monomios
-    * @param tipoIgualdad
-    * @param resultado
-    */
-   public Ecuacion(Monomio [] monomios, int tipoIgualdad, int resultado){
-       setMonomios(monomios);
-       setResultado(resultado);
-       setTipoIgualdad(tipoIgualdad);
-   }
+    /**
+     *
+     * @param monomios
+     * @param tipoIgualdad
+     * @param resultado
+     */
+    public Ecuacion(Monomio[] monomios, int tipoIgualdad, int resultado) {
+        setMonomios(monomios);
+        setResultado(resultado);
+        setTipoIgualdad(tipoIgualdad);
+    }
 
     /**
      *
@@ -50,7 +48,7 @@ public class Ecuacion {
      * @param tipoIgualdad
      * @param monomioResultado
      */
-    public Ecuacion (Monomio [] monomios, int tipoIgualdad, Monomio monomioResultado){
+    public Ecuacion(Monomio[] monomios, int tipoIgualdad, Monomio monomioResultado) {
         setMonomioResultado(monomioResultado);
         setMonomios(monomios);
         setTipoIgualdad(tipoIgualdad);
@@ -67,21 +65,16 @@ public class Ecuacion {
      * @param tipoIgualdad the tipoIgualdad to set
      */
     public void setTipoIgualdad(int tipoIgualdad) {
-        switch(tipoIgualdad){
+        switch (tipoIgualdad) {
             case IGUAL:
             case MAYOR_QUE:
             case MENOR_QUE:
             case MAYOR_IGUAL_QUE:
             case MENOR_IGUAL_QUE:
                 this.tipoIgualdad = tipoIgualdad;
-            break;
+                break;
             default:
-                try {
-                    throw new Exception("Error tipo desigualdad o igualdad invalida");
-                } catch (Exception ex) {
-                    Logger.getLogger(Ecuacion.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            break;
+                throw new IllegalArgumentException("Error tipo desigualdad o igualdad invalida");
         }
     }
 
@@ -97,8 +90,10 @@ public class Ecuacion {
      */
     public void setMonomios(Monomio[] monomios) {
         this.monomios = new ArrayList<Monomio>();
-        for(Monomio i : monomios){
-            addMononio(i);
+        if (monomios != null) {
+            for (Monomio i : monomios) {
+                addMononio(i);
+            }
         }
     }
 
@@ -121,8 +116,17 @@ public class Ecuacion {
      * 
      * @param monomio {@code Monomio}
      */
-    public void addMononio(Monomio monomio){
+    public void addMononio(Monomio monomio) {
         monomios.add(monomio);
+    }
+
+    /**
+     *
+     * @param index
+     * @return the Monomio
+     */
+    public Monomio getMonomio(int index) {
+        return monomios.get(index);
     }
 
     /**

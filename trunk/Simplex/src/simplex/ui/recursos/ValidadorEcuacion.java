@@ -5,7 +5,10 @@
  */
 package simplex.ui.recursos;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Stack;
+import org.neocs.mate.fracciones.Fraccion;
 import simplex.resolvedor.mate.Ecuacion;
 import simplex.resolvedor.mate.Monomio;
 
@@ -19,8 +22,6 @@ import simplex.resolvedor.mate.Monomio;
  */
 public class ValidadorEcuacion {
 
-    /** Arreglo de monomios que será añadido a {@link #ecuacion} */
-    private Monomio[] monomios;
     /** Ecuacion que será devuelta por {@link #validar(java.lang.String)} */
     private Ecuacion ecuacion;
 
@@ -31,7 +32,8 @@ public class ValidadorEcuacion {
      * @return {@code Ecuacion}
      */
     public Ecuacion validar(String string) {
-        ecuacion = new Ecuacion(new Monomio[]{new Monomio('x')}, Ecuacion.IGUAL, null);
+        //TODO: la creacion de la ecuacion tiene un monomio adicional incorrecto
+        ecuacion = new Ecuacion(null, Ecuacion.IGUAL, null);
         string = string.trim();
         string = string.toLowerCase();
 
@@ -70,26 +72,56 @@ public class ValidadorEcuacion {
             ecuacion.setResultado(Integer.parseInt(string));
         } catch (NumberFormatException ex) {
             if (string.length() != 1) {
-                Stack<Character> stVariable = new Stack<Character>();
-                Stack<Character> stConstantes = new Stack<Character>();
+                Deque cola = new ArrayDeque<Character>();
+                Stack pila = new Stack();
 
-                for (char c : string.toCharArray()) {
-                    if (esLetra(c)) {
-                        stVariable.push(c);
-                    } else {
-                        stConstantes.push(c);
+                for (Character c : string.toCharArray()) {
+                    cola.add(c);
+                }
+
+                do {
+                    Character c = (Character) cola.poll();
+                    if (c == '-') {
+                        do {
+                            pila.add(c);
+                            c = (Character) cola.poll();
+                        } while (Character.isDigit(c) || c == '/');
+                        cola.addFirst(c);
+                    } else if (esLetra(c)) {
+                        if (!pila.isEmpty()) {
+                            Monomio monomio = new Monomio(c);
+                            String s = "";
+
+                            for (int i = 0; i < pila.size(); i++) {
+                                s += (Character) pila.get(i);
+                            }
+
+                            pila.clear();
+
+                            if (s.contains("/")) {
+                                Fraccion f = new Fraccion(s);
+                                double d = (double) f.getNumerador() / (double) f.getDenominador();
+                                monomio.setCoeciente(d);
+                            } else {
+                                double value = Double.valueOf(s);
+                                monomio.setCoeciente(value);
+                            }
+                            c = (Character) cola.poll();
+
+                            if (Character.isDigit(c)) {
+                                s = "" + c;
+                                int subindice = Integer.parseInt(s);
+                                monomio.setSubindice(subindice);
+                            } else {
+                                cola.addFirst(c);
+                            }
+
+                            ecuacion.setMonomioResultado(monomio);
+                            ecuacion.setResultado(0);
+                        }
                     }
-                }
+                } while (!cola.isEmpty());
 
-                String t = "";
-
-                for (int i = 0; i < stConstantes.size(); i++) {
-                    t += stConstantes.pop();
-                }
-
-                ecuacion.setMonomioResultado(new Monomio(
-                        Integer.parseInt(volter(t)), stVariable.pop()));
-                ecuacion.setResultado(0);
             } else {
                 ecuacion.setMonomioResultado(new Monomio(string.charAt(0)));
                 ecuacion.setResultado(0);
@@ -102,141 +134,76 @@ public class ValidadorEcuacion {
      * @param string
      */
     private void buscarMonomios(String string) {
-        if (string.length() == 1) {
-            monomios = new Monomio[1];
-            monomios[0] = new Monomio(string.charAt(0));
-            ecuacion.setMonomios(monomios);
-        } else {
-            Stack<Character> stVariables = new Stack<Character>();
-            Stack<Character> stCoeficientesTmp = new Stack<Character>();
-            Stack<Double> stCoeficientes = new Stack<Double>();
-            Stack<Double> coeficientes = new Stack<Double>();
-            int numCoeficientes = 0, lengthString = string.length() - 1, numVariables = 0;
-            String tmp = "";
+        Deque cola = new ArrayDeque<Character>();
+        Stack pila = new Stack();
 
-            do {
-                if (esLetra(string.charAt(lengthString))) {
-                    stVariables.push(string.charAt(lengthString));
-                } else {
-                    stCoeficientesTmp.push(string.charAt(lengthString));
-                }
-                lengthString--;
-            } while (lengthString != -1);
-
-            do {
-                if ((stCoeficientesTmp.peek() == '-') || (stCoeficientesTmp.peek() == '+')) {
-                    if (tmp.length() != 0) {
-                        //TODO Aquí ocurre un error al convertir, pues se añade el subindice de la variable
-                        try {
-                            coeficientes.push(Double.parseDouble(tmp));
-                            tmp = "";
-                        } catch (NumberFormatException ex) {
-                            String[] stTmp = tmp.split("/");
-                            if (stTmp.length > 0) {
-                                double uno = Double.parseDouble(stTmp[0]);
-                                double dos = Double.parseDouble(stTmp[1]);
-                                double tres = uno / dos;
-                                coeficientes.push(tres);
-                            }
-                        }
-                    } else if (stCoeficientesTmp.peek() == '+') {
-                        stCoeficientesTmp.pop();
-                    } else {
-                        tmp += stCoeficientesTmp.pop();
-                    }
-                } else {
-                    tmp += stCoeficientesTmp.pop();
-                }
-            } while (!stCoeficientesTmp.isEmpty());
-
-            if (!tmp.isEmpty()) {
-                //TODO Aquí ocurre un error al convertir, pues se añade el subindice de la variable
-                try {
-                    coeficientes.push(Double.parseDouble(tmp));
-                    tmp = "";
-                } catch (NumberFormatException ex) {
-                    String[] stTmp = tmp.split("/");
-                    if (stTmp.length > 0) {
-                        double uno = Double.parseDouble(stTmp[0]);
-                        double dos = Double.parseDouble(stTmp[1]);
-                        double tres = uno / dos;
-
-                        coeficientes.push(tres);
-                    }
-                }
-                tmp = "";
-            }
-
-            numCoeficientes = coeficientes.size();
-            numVariables = stVariables.size();
-
-            for (int i = 0; i < numCoeficientes; i++) {
-                stCoeficientes.push(coeficientes.pop());
-            }
-
-            if (numCoeficientes == numVariables) {
-                monomios = new Monomio[numCoeficientes];
-                for (int i = 0; i < numCoeficientes; i++) {
-                    monomios[i] = new Monomio(stCoeficientes.pop(), stVariables.pop());
-                }
-                ecuacion.setMonomios(monomios);
-            } else {
-                monomios = new Monomio[numVariables];
-                for (int i = 0; i < numVariables; i++) {
-                    if (!stCoeficientes.isEmpty()) {
-                        double cons = stCoeficientes.pop();
-                        char ch = stVariables.pop();
-                        tmp = cons + "" + ch;
-                        if (string.indexOf(tmp) != -1) {
-                            monomios[i] = new Monomio(cons, ch);
-                        } else if (string.indexOf(tmp = ((int) cons) + "" + ch) != -1) {
-                            monomios[i] = new Monomio(cons, ch);
-                        } else if (string.indexOf(tmp = decimalAFraccion(cons) + "" + ch) != -1) {
-                            monomios[i] = new Monomio(cons, ch);
-                        } else {
-                            monomios[i] = new Monomio(ch);
-                            stCoeficientes.push(cons);
-                        }
-                        tmp = "";
-                    } else {
-                        monomios[i] = new Monomio(stVariables.pop());
-                    }
-                }
-                ecuacion.setMonomios(monomios);
-            }
+        for (Character c : string.toCharArray()) {
+            cola.add(c);
         }
-    }
 
-    /**
-     * <p>Invierte la cadena que recibe.</p>
-     * <p>Recibe "Animal" y devuele "laminA"</p>
-     *
-     * @param cadena
-     * @return {@code String}
-     */
-    private String volter(String cadena) {
-        String nuevaCadena = "";
-        int tamanyoCadena = cadena.length();
         do {
-            nuevaCadena += cadena.charAt(tamanyoCadena - 1);
-            tamanyoCadena--;
-        } while (tamanyoCadena > 0);
-        return nuevaCadena;
+            Character c = (Character) cola.poll();
+            if (c == '-') {
+                do {
+                    pila.add(c);
+                    c = (Character) cola.poll();
+                } while (Character.isDigit(c) || c == '/');
+                cola.addFirst(c);
+            } else if (Character.isDigit(c)) {
+                do {
+                    pila.add(c);
+                    c = (Character) cola.poll();
+                } while (Character.isDigit(c) || c == '/');
+                cola.addFirst(c);
+            } else if (esLetra(c)) {
+                if (!pila.isEmpty()) {
+                    Monomio monomio = new Monomio(c);
+                    String s = "";
+
+                    for (int i = 0; i < pila.size(); i++) {
+                        s += (Character) pila.get(i);
+                    }
+
+                    pila.clear();
+
+                    if (s.contains("/")) {
+                        Fraccion f = new Fraccion(s);
+                        double d = (double) f.getNumerador() / (double) f.getDenominador();
+                        monomio.setCoeciente(d);
+                    } else {
+                        double value = Double.valueOf(s);
+                        monomio.setCoeciente(value);
+                    }
+                    c = (Character) cola.poll();
+
+                    if (Character.isDigit(c)) {
+                        s = "" + c;
+                        int subindice = Integer.parseInt(s);
+                        monomio.setSubindice(subindice);
+                    } else {
+                        cola.addFirst(c);
+                    }
+
+                    ecuacion.addMononio(monomio);
+                } else {
+                    Monomio monomio = new Monomio(c);
+                    c = (Character) cola.poll();
+
+                    if (Character.isDigit(c)) {
+                        String s = "" + c;
+                        int subindice = Integer.parseInt(s);
+                        monomio.setSubindice(subindice);
+                    } else {
+                        cola.addFirst(c);
+                    }
+
+                    ecuacion.addMononio(monomio);
+                }
+            }
+        } while (!cola.isEmpty());
     }
 
     private boolean esLetra(char c) {
         return ((c >= 'a') && (c <= 'z'));
-    }
-
-    private String decimalAFraccion(double aDouble) {
-        double tmp;
-        int b = 0, a;
-        do {
-            b++;
-            tmp = b * aDouble;
-            a = (int) tmp;
-            tmp = tmp - a;
-        } while (tmp > 0);
-        return a + "/" + b;
     }
 }
