@@ -27,7 +27,6 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
     private org.neocs.beans.panel.FondoJPanel fondoJPanel1;
     private org.neocs.beans.panel.FondoJPanel fondoJPanel2;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelTitulo;
@@ -71,7 +70,6 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -124,13 +122,6 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
             }
         });
 
-        jButton2.setText("jButton2");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout fondoJPanel2Layout = new javax.swing.GroupLayout(fondoJPanel2);
         fondoJPanel2.setLayout(fondoJPanel2Layout);
         fondoJPanel2Layout.setHorizontalGroup(
@@ -146,13 +137,8 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
                         .addGroup(fondoJPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(fondoJPanel2Layout.createSequentialGroup()
                                 .addComponent(jRadioButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(fondoJPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(fondoJPanel2Layout.createSequentialGroup()
-                                        .addGap(4, 4, 4)
-                                        .addComponent(jButton1))
-                                    .addGroup(fondoJPanel2Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton2))))
+                                .addGap(4, 4, 4)
+                                .addComponent(jButton1))
                             .addComponent(jRadioButton3)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoJPanel2Layout.createSequentialGroup()
                         .addContainerGap()
@@ -186,9 +172,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
                             .addGroup(fondoJPanel2Layout.createSequentialGroup()
                                 .addComponent(jRadioButton3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(fondoJPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jRadioButton4)
-                                    .addComponent(jButton2)))
+                                .addComponent(jRadioButton4))
                             .addGroup(fondoJPanel2Layout.createSequentialGroup()
                                 .addComponent(jRadioButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -204,7 +188,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Variable básica", "No. de Ecuación", "x1", "x2", "x3", "b"
+                "No. de Ecuación", "Variable básica", "x1", "x2", "x3", "b"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -242,7 +226,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
                     .addGroup(fondoJPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelTitulo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -318,9 +302,9 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
 	    
             changeTable(con.conversiones(fo, rest));
 
-            Simplex simplexTabular = new SimplexTabular();
+            /*Simplex simplexTabular = new SimplexTabular();
 
-            simplexTabular.maximizar(fo, rest);
+            simplexTabular.maximizar(fo, rest);*/
         } else {
             JOptionPane.showMessageDialog(this, "Debe ingresar al menos una restricción y la función objetivo", "Faltan elementos restrición o función objetivo", JOptionPane.ERROR_MESSAGE);
         }
@@ -329,10 +313,6 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void changeTable(javax.swing.table.DefaultTableModel model) {
         jTable1.setModel(model);
