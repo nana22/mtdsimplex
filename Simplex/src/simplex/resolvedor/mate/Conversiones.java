@@ -11,10 +11,10 @@ public class Conversiones {
     private String varBasic[];
     private String tempVB[];
     private String var[];
-    private int numVariables;
+    private int numeroVariables;
 
     public DefaultTableModel conversiones(Ecuacion fo, Ecuacion[] rest) {
-        numVariables = fo.getMonomios().length;
+        numeroVariables = fo.getMonomios().length;
         tratarFO(fo);
         tratarRestric(rest);
         SimplexTable table = new SimplexTable();
@@ -66,7 +66,7 @@ public class Conversiones {
                     restricciones[i].setTipoIgualdad(Ecuacion.IGUAL);
 
                     if((i + 1) == countHolgura){
-                        restricciones[i].getMonomio(i + numVariables).setCoeficiente(-1);
+                        restricciones[i].getMonomio(i + numeroVariables).setCoeficiente(-1);
                         //restricciones[i].addMononio(new Monomio(-1, holgura, countHolgura));
                     }
                     
@@ -80,7 +80,7 @@ public class Conversiones {
                     restricciones[i].setTipoIgualdad(Ecuacion.IGUAL);
 
                     if((i + 1) == countHolgura){
-                        restricciones[i].getMonomio(i + numVariables).setCoeficiente(1);
+                        restricciones[i].getMonomio(i + numeroVariables).setCoeficiente(1);
                         //restricciones[i].addMononio(new Monomio(1, holgura, countHolgura));
                     }
 
