@@ -8,9 +8,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Conversiones {
 
-    private String varBasic[];
+    private String variableBasica[];
     private String tempVB[];
-    private String var[];
+    private String variables[];
     private int numeroVariables;
     private String[][] data;
 
@@ -19,20 +19,18 @@ public class Conversiones {
         tratarFO(fo);
         tratarRestric(rest);
         SimplexTable table = new SimplexTable();
-        table.setVarBasics(varBasic);
-        table.setVarNs(var);
+        table.setVarBasics(variableBasica);
+        table.setVarNs(variables);
         data = table.getRowData();
         return table.simplexTable(fo, rest);
     }
 
     private void tratarFO(Ecuacion FO) {
         Monomio monomiosFO[] = FO.getMonomios();
-        var = new String[monomiosFO.length];
+        variables = new String[monomiosFO.length];
 
         for (int i = 0; i < monomiosFO.length; i++) {
-            var[i] = "" + monomiosFO[i].getVariable()
-                    + monomiosFO[i].getSubindice();
-            monomiosFO[i].setCoeficiente(-1 * monomiosFO[i].getCoeficiente());
+            variables[i] = "" + monomiosFO[i].getVariable() + monomiosFO[i].getSubindice();
         }
         
         Monomio z = FO.getMonomioResultado();
@@ -40,7 +38,6 @@ public class Conversiones {
         FO.setMonomioResultado(null);
         FO.setResultado(0);
         FO.addMonomio(z);
-
     }
 
     //TODO Freddy hacer que todas tengan la misma cantidad de variables
@@ -72,10 +69,10 @@ public class Conversiones {
                         //restricciones[i].addMononio(new Monomio(-1, holgura, countHolgura));
                     }
                     
-                    varBasic = new String[tempVB.length + 1];
-                    System.arraycopy(tempVB, 0, varBasic, 0, tempVB.length);
-                    varBasic[tempVB.length] = "" + holgura + countHolgura;
-                    tempVB = varBasic;
+                    variableBasica = new String[tempVB.length + 1];
+                    System.arraycopy(tempVB, 0, variableBasica, 0, tempVB.length);
+                    variableBasica[tempVB.length] = "" + holgura + countHolgura;
+                    tempVB = variableBasica;
                     countHolgura++;
                     break;
                 case Ecuacion.MENOR_IGUAL_QUE:
@@ -86,24 +83,24 @@ public class Conversiones {
                         //restricciones[i].addMononio(new Monomio(1, holgura, countHolgura));
                     }
 
-                    varBasic = new String[tempVB.length + 1];
-                    System.arraycopy(tempVB, 0, varBasic, 0, tempVB.length);
-                    varBasic[tempVB.length] = "" + holgura + countHolgura;
-                    tempVB = varBasic;
+                    variableBasica = new String[tempVB.length + 1];
+                    System.arraycopy(tempVB, 0, variableBasica, 0, tempVB.length);
+                    variableBasica[tempVB.length] = "" + holgura + countHolgura;
+                    tempVB = variableBasica;
                     countHolgura++;
                     break;
                 default:
-                    break;//TODO No hay variables de error para cachar
+                    throw new IllegalArgumentException();                    
             }
         }
     }
 
-    public String[] getVarBasic() {
-        return varBasic;
+    public String[] getVariableBasica() {
+        return variableBasica;
     }
 
-    public String[] getVar() {
-        return var;
+    public String[] getVariables() {
+        return variables;
     }
     
     public String[][] getData() {

@@ -26,9 +26,9 @@ public class ValidadorEcuacion {
     private Ecuacion ecuacion;
 
     /**
-     * Crea una <tt>Ecuacion</tt> a partir de una <tt>String</tt>.
+     * Crea una <tt>Ecuacion</tt> a partir de un <tt>String</tt>.
      *
-     * @param string {@code String} "3x + 8y = 12"
+     * @param un string {@code String} por ejemplo: "3x + 8y = 12"
      * @return {@code Ecuacion}
      */
     public Ecuacion validar(String string) {
@@ -52,6 +52,19 @@ public class ValidadorEcuacion {
             throw new IllegalArgumentException("Ecuación no valida: " + string);
         }
 
+        //TODO Apoyandose en expresiones regulares se pueden localizar los monomios, solo se necesitaria que monomio se construya apartir de un String
+        /*
+        String regexMonomio = "([-\\+]*\\d*[a-y]\\d+)";
+        Pattern p = Pattern.compile(regexMonomio);
+        Matcher m = p.matcher("6x3+7y1-x1=12");
+        while (m.find()) {
+        String group = m.group();
+        int start = m.start();
+        int end = m.end();
+        System.out.println(group);            
+        }
+         */
+        
         if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
             buscarResultado(cadenaNueva[0]);
             buscarMonomios(cadenaNueva[1]);

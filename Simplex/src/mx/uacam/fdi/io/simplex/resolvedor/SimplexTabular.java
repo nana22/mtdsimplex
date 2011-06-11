@@ -50,9 +50,9 @@ public class SimplexTabular implements Simplex {
         for (int i = 0; i < m; i++) {
             Monomio[] monomios = restricciones[i].getMonomios();
             for (int j = 0; j < n; j++) {
-                double d = Double.valueOf(monomios[j].getCoeficiente());
-                String s = Fraccion.valueOf(d).toString();
-                sdat += s + ',';
+                double d = monomios[j].getCoeficiente();
+                String cadena = Fraccion.valueOf(d).toString();
+                sdat += cadena + ',';
             }
             sdat += restricciones[i].getResultado() + ",";
         }
@@ -60,8 +60,8 @@ public class SimplexTabular implements Simplex {
         Monomio[] monomios = fo.getMonomios();
         for (int j = 0; j < n; j++) {
             double d = Double.valueOf(monomios[j].getCoeficiente());
-            String s = Fraccion.valueOf(d).toString();
-            sdat += s + ',';
+            String cadena = Fraccion.valueOf(d).toString();
+            sdat += cadena + ',';
         }
 
         sdat += fo.getResultado();
@@ -175,9 +175,13 @@ public class SimplexTabular implements Simplex {
         for (int j = 0; j <= n; j++) {
             a[r][j].div(c);
         }
+        
         for (int i = 0; i < a.length; i++) {
             RationalNumber[] rationalNumbers = a[i];
-            System.out.println(a[i]);
+            for (RationalNumber rationalNumber : rationalNumbers) {
+                System.out.print(rationalNumber + "\t");
+            }
+            System.out.print('\n');
         }
     }
 
