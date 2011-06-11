@@ -2,20 +2,17 @@ package mx.uacam.fdi.io.simplex.resolvedor.mate;
 
 /* File: Simplex.java          */
 /* Copyright (C) 1997 K. Ikeda */
-
 public class RationalNumber {
 
     public int numerator;
     public int denominator;
 
     public RationalNumber() {
-        numerator = 0;
-        denominator = 1;
+        this(0);
     }
 
     public RationalNumber(int numerator) {
-        this.numerator = numerator;
-        this.denominator = 1;
+        this(numerator, 1);
     }
 
     public RationalNumber(int numerator, int denominator) {
@@ -114,8 +111,7 @@ public class RationalNumber {
     }
 
     public void inv() {
-        int swap;
-        swap = numerator;
+        int swap = numerator;
         numerator = denominator;
         denominator = swap;
         reduce();
@@ -191,7 +187,6 @@ public class RationalNumber {
 
     @Override
     public String toString() {
-        return numerator + "/" + denominator ;
+        return numerator + "/" + denominator;
     }
-
 }
