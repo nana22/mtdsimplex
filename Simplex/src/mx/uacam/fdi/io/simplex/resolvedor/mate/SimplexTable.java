@@ -76,31 +76,31 @@ public class SimplexTable {
 
         for (int llen = 0; llen < nuevaEc.length; llen++) {
 
-            String RowFO[] = new String[colNames.length];
+            String rowFO[] = new String[colNames.length];
             Monomio temp[] = nuevaEc[llen].getMonomios();
 
-            RowFO[0] = String.valueOf(llen);
-            RowFO[1] = colVarsB[llen];
-            RowFO[colNames.length - 2] = String.valueOf(nuevaEc[llen].getResultado());
+            rowFO[0] = String.valueOf(llen);
+            rowFO[1] = colVarsB[llen];
+            rowFO[colNames.length - 2] = String.valueOf(nuevaEc[llen].getResultado());
 
             for (int i = 2; i < colNames.length - 2; i++) {
                 for (int j = 0; j < temp.length; j++) {
                     String caract = "" + temp[j].getVariable() + temp[j].getSubindice();
                     if (caract.equalsIgnoreCase(colNames[i])) {
-                        RowFO[i] = String.valueOf(temp[j].getCoeficiente());
+                        rowFO[i] = String.valueOf(temp[j].getCoeficiente());
                     }
                 }
             }
 
             //Llenado de valores null con 0
-            for (int i = 0; i < RowFO.length; i++) {
-                if (RowFO[i] == null) {
-                    RowFO[i] = "0.0";
+            for (int i = 0; i < rowFO.length; i++) {
+                if (rowFO[i] == null) {
+                    rowFO[i] = "0.0";
                 }
             }
 
-            RowFO[colNames.length - 1] = null;
-            modelo.addRow(RowFO);
+            rowFO[colNames.length - 1] = null;
+            modelo.addRow(rowFO);
         }
 
         rowData = new String[modelo.getRowCount()][modelo.getColumnCount() - 3];

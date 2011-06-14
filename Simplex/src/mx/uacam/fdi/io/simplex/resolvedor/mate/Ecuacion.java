@@ -5,8 +5,11 @@
  */
 package mx.uacam.fdi.io.simplex.resolvedor.mate;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -16,17 +19,63 @@ import java.util.List;
  * @author Neo Cs || [El Ángel Blanco]
  * @version 1.7.1, 10/10/09
  */
-public class Ecuacion {
-
-    public static final int IGUAL = 0;
-    public static final int MENOR_QUE = 1;
-    public static final int MAYOR_QUE = 2;
-    public static final int MAYOR_IGUAL_QUE = 3;
-    public static final int MENOR_IGUAL_QUE = 4;
-    private int tipoIgualdad;
+public class Ecuacion implements Serializable{
+    
+    private static final long serialVersionUID = 5601572475251277384L;
+    private OperadorRelacional tipoIgualdad;
     private List<Monomio> monomios;
     private Monomio monomioResultado;
     private int resultado;
+
+    /**
+     * 
+     * @param unaEcuacion 
+     */
+    public Ecuacion(String unaEcuacion) {
+        unaEcuacion = unaEcuacion.trim();
+        unaEcuacion = unaEcuacion.toLowerCase();
+
+        String[] cadenaNueva = unaEcuacion.split("<=");
+        if (cadenaNueva.length == 2) {
+            tipoIgualdad = OperadorRelacional.MENOR_IGUAL_QUE;
+        } else if ((cadenaNueva = unaEcuacion.split(">=")).length == 2) {
+            tipoIgualdad = OperadorRelacional.MAYOR_IGUAL_QUE;
+        } else if ((cadenaNueva = unaEcuacion.split("=")).length == 2) {
+            tipoIgualdad = OperadorRelacional.IGUAL;
+        } else if ((cadenaNueva = unaEcuacion.split(">")).length == 2) {
+            tipoIgualdad = OperadorRelacional.MAYOR_QUE;
+        } else if ((cadenaNueva = unaEcuacion.split("<")).length == 2) {
+            tipoIgualdad = OperadorRelacional.MENOR_QUE;
+        } else {
+            throw new IllegalArgumentException("Ecuación no valida: " + unaEcuacion);
+        }
+
+        String regexMonomio = "([-\\+]*\\d*[a-y]\\d+)";
+        Pattern p = Pattern.compile(regexMonomio);
+        Matcher m = p.matcher(unaEcuacion);
+
+        List<Monomio> monomios = new ArrayList<Monomio>();
+        while (m.find()) {
+            String group = m.group();            
+            monomios.add(new Monomio(group));
+        }
+
+        this.monomios = monomios;
+
+        if (cadenaNueva[1].length() > cadenaNueva[0].length()) {
+            try {                
+                resultado = Integer.parseInt(cadenaNueva[0]);
+            } catch (NumberFormatException ex) {                
+                monomioResultado = new Monomio(cadenaNueva[0]);
+            }            
+        } else {
+            try {                
+                resultado = Integer.parseInt(cadenaNueva[1]);
+            } catch (NumberFormatException ex) {                
+                monomioResultado = new Monomio(cadenaNueva[1]);
+            }
+        }
+    }
 
     /**
      *
@@ -34,7 +83,7 @@ public class Ecuacion {
      * @param tipoIgualdad
      * @param resultado
      */
-    public Ecuacion(Monomio[] monomios, int tipoIgualdad, int resultado) {
+    public Ecuacion(Monomio[] monomios, OperadorRelacional tipoIgualdad, int resultado) {
         setMonomios(monomios);
         setResultado(resultado);
         setTipoIgualdad(tipoIgualdad);
@@ -46,7 +95,7 @@ public class Ecuacion {
      * @param tipoIgualdad
      * @param monomioResultado
      */
-    public Ecuacion(Monomio[] monomios, int tipoIgualdad, Monomio monomioResultado) {
+    public Ecuacion(Monomio[] monomios, OperadorRelacional tipoIgualdad, Monomio monomioResultado) {
         setMonomioResultado(monomioResultado);
         setMonomios(monomios);
         setTipoIgualdad(tipoIgualdad);
@@ -55,14 +104,14 @@ public class Ecuacion {
     /**
      * @return the tipoIgualdad
      */
-    public int getTipoIgualdad() {
+    public OperadorRelacional getTipoIgualdad() {
         return tipoIgualdad;
     }
 
     /**
      * @param tipoIgualdad the tipoIgualdad to set
      */
-    public void setTipoIgualdad(int tipoIgualdad) {
+    public void setTipoIgualdad(OperadorRelacional tipoIgualdad) {
         switch (tipoIgualdad) {
             case IGUAL:
             case MAYOR_QUE:
@@ -139,5 +188,44 @@ public class Ecuacion {
      */
     public void setMonomioResultado(Monomio monomioResultado) {
         this.monomioResultado = monomioResultado;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Ecuacion other = (Ecuacion) obj;
+        if (this.tipoIgualdad != other.tipoIgualdad) {
+            return false;
+        }
+        if (this.monomios != other.monomios && (this.monomios == null || !this.monomios.equals(other.monomios))) {
+            return false;
+        }
+        if (this.monomioResultado != other.monomioResultado && (this.monomioResultado == null || !this.monomioResultado.equals(other.monomioResultado))) {
+            return false;
+        }
+        if (this.resultado != other.resultado) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 67 * hash + (this.tipoIgualdad != null ? this.tipoIgualdad.hashCode() : 0);
+        hash = 67 * hash + (this.monomios != null ? this.monomios.hashCode() : 0);
+        hash = 67 * hash + (this.monomioResultado != null ? this.monomioResultado.hashCode() : 0);
+        hash = 67 * hash + this.resultado;
+        return hash;
+    }
+
+    @Override
+    public String toString() {
+        return "Ecuacion{ monomios=" + monomios + ", tipoIgualdad=" + tipoIgualdad + ", monomioResultado=" + monomioResultado + ", resultado=" + resultado + '}';
     }
 }

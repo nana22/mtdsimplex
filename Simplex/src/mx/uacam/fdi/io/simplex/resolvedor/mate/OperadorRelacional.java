@@ -21,7 +21,7 @@ package mx.uacam.fdi.io.simplex.resolvedor.mate;
  *
  * @author Freddy
  */
-public enum OperadoresRelacionales {
+public enum OperadorRelacional {
     IGUAL, 
     MENOR_QUE,
     MAYOR_QUE,

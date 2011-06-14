@@ -123,8 +123,10 @@
                       <Component id="fondoJPanel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabelTitulo" pref="460" max="32767" attributes="0"/>
-                          <Component id="jScrollPane2" alignment="0" pref="460" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" pref="460" max="32767" attributes="0"/>
+                          <Component id="jLabelTitulo" alignment="0" pref="460" max="32767" attributes="0"/>
+                          <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel4" min="-2" pref="269" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -139,7 +141,11 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabelTitulo" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane2" pref="351" max="32767" attributes="0"/>
+                              <Component id="jScrollPane2" min="-2" pref="299" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabel4" min="-2" pref="13" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -233,6 +239,9 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextField1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="z=-3x1-2x2-4x3"/>
+                  </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel3">
                   <Properties>
@@ -250,6 +259,7 @@
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
                         <Property name="rows" type="int" value="5"/>
+                        <Property name="text" type="java.lang.String" value="x1+x2+2x3&lt;=4&#xa;2x1+2x3&#x9;&lt;=5&#xa;2x1+x2+3x3&lt;=7"/>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -278,7 +288,6 @@
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="buttonGroup2"/>
                     </Property>
-                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Maximizar"/>
                     <Property name="opaque" type="boolean" value="false"/>
                   </Properties>
@@ -288,6 +297,7 @@
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="buttonGroup2"/>
                     </Property>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Minimizar"/>
                     <Property name="opaque" type="boolean" value="false"/>
                   </Properties>
@@ -312,20 +322,20 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="jTable1">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="6" rowCount="1">
-                        <Column editable="false" title="No. de Ecuaci&#xf3;n" type="java.lang.Object"/>
-                        <Column editable="false" title="Variable b&#xe1;sica" type="java.lang.Object"/>
-                        <Column editable="false" title="x1" type="java.lang.Object"/>
-                        <Column editable="false" title="x2" type="java.lang.Object"/>
-                        <Column editable="false" title="x3" type="java.lang.Object"/>
-                        <Column editable="false" title="b" type="java.lang.Object"/>
-                      </Table>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="new InnnerDefaultTableModel()" type="code"/>
                     </Property>
                   </Properties>
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Resultado:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel4">
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

@@ -57,17 +57,17 @@ public class SimplexMetodoM implements Simplex{
     private void modificarRestricciones(Ecuacion[] restricciones){
         for (int i = 0; i < restricciones.length; i++) {
             switch(restricciones[i].getTipoIgualdad()){
-                case Ecuacion.IGUAL:
+                case IGUAL:
                     restricciones[i].addMonomio(new Monomio(VARIABLE_ARTIFICIAL, countVariableArtificial));
                     countVariableArtificial++;
                     break;
-                case Ecuacion.MAYOR_IGUAL_QUE:
+                case MAYOR_IGUAL_QUE:
                     restricciones[i].addMonomio(new Monomio(-1,VARIABLE_HOLGURA, countVariableHolgura));
                     restricciones[i].addMonomio(new Monomio(VARIABLE_ARTIFICIAL,countVariableArtificial));
                     countVariableArtificial++;
                     countVariableHolgura++;
                     break;
-                case Ecuacion.MENOR_IGUAL_QUE:
+                case MENOR_IGUAL_QUE:
                     restricciones[i].addMonomio(new Monomio(VARIABLE_HOLGURA, countVariableHolgura));
                     countVariableHolgura++;
                     break;
@@ -103,7 +103,7 @@ public class SimplexMetodoM implements Simplex{
                     }
                 }
             }
-            //TODO Multiplicar po M cada Ecuacion
+            //TODO Multiplicar por M cada Ecuacion
             for(int i = 0; i < lista.size(); i++){
                 Ecuacion ec = (Ecuacion) lista.get(i);
                 for (int j = 0; j < ec.getMonomios().length; j++){
