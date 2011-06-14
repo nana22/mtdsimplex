@@ -50,20 +50,17 @@ import mx.uacam.fdi.io.simplex.ui.VentanaPrincipal;
 public class Main {
 
     public static void main(String[] args) {
-
-        if (System.getProperty("os.name").contains("Windows")) {
-            try {
-                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            } catch (InstantiationException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            } catch (UnsupportedLookAndFeelException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            }
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
         EventQueue.invokeLater(new Thread(new VentanaPrincipal(), "Ventana principal"));
-    }    
+    }
 }

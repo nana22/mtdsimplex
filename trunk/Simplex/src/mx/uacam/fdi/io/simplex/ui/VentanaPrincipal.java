@@ -7,10 +7,10 @@
 package mx.uacam.fdi.io.simplex.ui;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import mx.uacam.fdi.io.simplex.resolvedor.SimplexTabular;
 import mx.uacam.fdi.io.simplex.resolvedor.mate.Conversiones;
 import mx.uacam.fdi.io.simplex.resolvedor.mate.Ecuacion;
-import mx.uacam.fdi.io.simplex.ui.recursos.ValidadorEcuacion;
 
 /**
  *
@@ -27,8 +27,10 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
     private org.neocs.beans.panel.FondoJPanel fondoJPanel1;
     private org.neocs.beans.panel.FondoJPanel fondoJPanel2;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
@@ -72,6 +74,8 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -94,10 +98,13 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
 
         jLabel2.setText("Función objetivo");
 
+        jTextField1.setText("z=-3x1-2x2-4x3");
+
         jLabel3.setText("Restricciones");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
+        jTextArea1.setText("x1+x2+2x3<=4\n2x1+2x3\t<=5\n2x1+x2+3x3<=7");
         jScrollPane1.setViewportView(jTextArea1);
 
         buttonGroup1.add(jRadioButtonMetodoTabular);
@@ -110,11 +117,11 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
         jRadioButtonMetodoM.setOpaque(false);
 
         buttonGroup2.add(jRadioButtonMaximizar);
-        jRadioButtonMaximizar.setSelected(true);
         jRadioButtonMaximizar.setText("Maximizar");
         jRadioButtonMaximizar.setOpaque(false);
 
         buttonGroup2.add(jRadioButtonMinimizar);
+        jRadioButtonMinimizar.setSelected(true);
         jRadioButtonMinimizar.setText("Minimizar");
         jRadioButtonMinimizar.setOpaque(false);
 
@@ -174,23 +181,10 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "No. de Ecuación", "Variable básica", "x1", "x2", "x3", "b"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        jTable1.setModel(new InnnerDefaultTableModel());
         jScrollPane2.setViewportView(jTable1);
+
+        jLabel1.setText("Resultado:");
 
         javax.swing.GroupLayout fondoJPanel1Layout = new javax.swing.GroupLayout(fondoJPanel1);
         fondoJPanel1.setLayout(fondoJPanel1Layout);
@@ -201,8 +195,10 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
                 .addComponent(fondoJPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(fondoJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
                     .addComponent(jLabelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         fondoJPanel1Layout.setVerticalGroup(
@@ -214,7 +210,11 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
                     .addGroup(fondoJPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelTitulo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -280,12 +280,10 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
             if (jRadioButtonMetodoTabular.isSelected()) {
                 metodoTabular();
             } else {
+                JOptionPane.showMessageDialog(this, "Atención: No se puede realizar la tarea porque aun no se ha implementado", "Aun no implementado", JOptionPane.INFORMATION_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Debe ingresar al menos una"
-                    + " restricción y la función objetivo"
-                    , "Faltan elementos restrición o función objetivo"
-                    , JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Debe ingresar al menos una restricción y la función objetivo", "Faltan elementos restrición o función objetivo", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -303,26 +301,49 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Runnable {
         jTextField1.setText(jTextField1.getText().toLowerCase());
 
         String[] lineas = jTextArea1.getText().split("\n");
-        Ecuacion fo = new ValidadorEcuacion().validar(jTextField1.getText());
+        Ecuacion fo = new Ecuacion(jTextField1.getText());
         Ecuacion[] restricciones = new Ecuacion[lineas.length];
 
         for (int i = 0; i < restricciones.length; i++) {
-            restricciones[i] = new ValidadorEcuacion().validar(lineas[i]);
+            restricciones[i] = new Ecuacion(lineas[i]);
         }
 
         jTable1.setModel((new Conversiones().conversiones(fo, restricciones)));
 
-        double[] d = jRadioButtonMinimizar.isSelected() ?
-            new SimplexTabular().minimizar(fo, restricciones) :
-            new SimplexTabular().maximizar(fo, restricciones);
+        double[] d = jRadioButtonMinimizar.isSelected()
+                ? new SimplexTabular().minimizar(fo, restricciones)
+                : new SimplexTabular().maximizar(fo, restricciones);
         String s = "";
 
         for (int i = 0; i < d.length - 1; i++) {
-            s += d[i] + " ";
+            s += d[i] + ", ";
         }
 
         s += "z=" + d[d.length - 1];
 
         JOptionPane.showMessageDialog(null, "Los resultados de son: " + s);
+        jLabel4.setText("Los resultados de son: " + s);
+    }
+
+    private class InnnerDefaultTableModel extends DefaultTableModel {
+
+        private static final long serialVersionUID = 4173400276978690977L;
+        boolean[] canEdit = new boolean[]{
+            false, false, false, false, false, false
+        };
+
+        public InnnerDefaultTableModel() {
+            super(new Object[][]{
+                        {null, null, null, null, null, null}
+                    },
+                    new String[]{
+                        "No. de Ecuación", "Variable básica", "x1", "x2", "x3", "b"
+                    });
+        }
+
+        @Override
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit[columnIndex];
+        }
     }
 }
